@@ -10,25 +10,21 @@ end
 namespace :db do
 
   desc 'Migrate table'
-  task :migrate do
-    ::Sequel.extension :migration
-    Sequel::Migrator.run DB, 'db/migrate'
-    puts '<= db:migrate executed'
+  task :migrate => [:environment] do
+    CreateLocations.migrate if defined?(CreateLocations)
   end
 
   desc 'Drop table'
   task :drop do
-
-  end
-
-  desc 'Seed database'
-  task :seed do
-
+    CreateLocations.drop if defined?(CreateLocations)
   end
 
   desc 'Resets database'
   task :reset do
-
+    if defined?(CreateLocations)
+      CreateLocations.drop
+      CreateLocations.migrate
+    end
   end
 
 end
