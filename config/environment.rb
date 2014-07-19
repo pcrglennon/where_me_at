@@ -13,4 +13,5 @@ configure do
   end
 end
 
-# require 'app'
+require 'db/migrate/01_create_locations'
+require 'app'
