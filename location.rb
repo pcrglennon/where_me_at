@@ -13,9 +13,9 @@ class Location
     migrate = <<-SQL
       CREATE TABLE IF NOT EXISTS locations(
         id INTEGER PRIMARY KEY,
+        map_name STRING,
         latitude FLOAT,
-        longitude FLOAT,
-        map_name STRING
+        longitude FLOAT
       );
     SQL
     DB[:conn].execute(migrate)
