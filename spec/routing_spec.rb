@@ -8,6 +8,14 @@ describe 'Routes' do
     App.new
   end
 
+  before do
+    Location.create_table
+  end
+
+  after do
+    Location.drop_table
+  end
+
   describe 'GET /' do
     before do
       get '/'
@@ -35,14 +43,14 @@ describe 'Routes' do
     end
 
     it 'redirects to the page for the new map' do
-      expect(last_response.location).to end_with('/a-test-map')
+      expect(last_request.url).to end_with('/a-test-map')
     end
   end
 
   describe 'GET /:map_name' do
     before do
-      Location.create(:map_name => 'a-test-map', :latitude => 42.0, :longitude => 42.0)
-      get '/a-test-map'
+      Location.create(:map_name => 'a-test-map-get', :latitude => 42.0, :longitude => 42.0)
+      get '/a-test-map-get'
     end
 
     it 'responds with a 200 status code' do
@@ -50,7 +58,7 @@ describe 'Routes' do
     end
 
     it 'shows the correct map' do
-      expect(last_response.body).to include('a-test-map')
+      expect(last_response.body).to include('a-test-map-get')
     end
   end
 

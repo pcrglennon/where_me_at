@@ -3,14 +3,20 @@ require 'uri'
 class Location
   # Class Methods
 
+  def self.attributes
+    [:id, :map_name, :latitude, :longitude]
+  end
+
+  self.attributes.each { |a| attr_accessor a }
+
   def self.create_table
     migrate = <<-SQL
       CREATE TABLE IF NOT EXISTS locations(
-          id INTEGER PRIMARY KEY,
-          latitude FLOAT,
-          longitude FLOAT,
-          map_name STRING
-        );
+        id INTEGER PRIMARY KEY,
+        latitude FLOAT,
+        longitude FLOAT,
+        map_name STRING
+      );
     SQL
     DB[:conn].execute(migrate)
   end
@@ -22,6 +28,27 @@ class Location
     DB[:conn].execute(drop)
   end
 
+  def self.find_by_map_name(map_name)
+    select = <<-SQL
+      SELECT * FROM locations
+      WHERE map_name = ?;
+    SQL
+    row = DB[:conn].execute(select, map_name).flatten
+    if row.empty?
+      nil
+    else
+      new_from_db(row)
+    end
+  end
+
+  def self.new_from_db(row)
+    self.new.tap do |location|
+      row.each_with_index do |value, index|
+        location.send("#{self.attributes[index]}=", value)
+      end
+    end
+  end
+
   def self.create(params)
     location = self.new(params)
     location.save
@@ -30,10 +57,8 @@ class Location
 
   # Instance Methods
 
-  attr_reader :id, :map_name, :latitude, :longitude
-
-  def initialize(params)
-    normalize_params(params)
+  def initialize(params = {})
+    normalize_params(params) unless params.empty?
   end
 
   def save
@@ -47,17 +72,17 @@ class Location
   def insert
     insert = <<-SQL
       INSERT INTO locations (map_name, latitude, longitude)
-      VALUES (?, ?, ?)
+      VALUES (?, ?, ?);
     SQL
     DB[:conn].execute(insert, map_name, latitude, longitude)
-    @id = DB[:conn].last_insert_row_id
+    self.id = DB[:conn].last_insert_row_id
   end
 
   def update
     update = <<-SQL
       UPDATE locations
       SET (map_name = ?, latitude = ?, longitude = ?)
-      WHERE id = ?
+      WHERE id = ?;
     SQL
     DB[:conn].execute(update, id, map_name, latitude, longitude)
   end
