@@ -10,21 +10,19 @@ end
 namespace :db do
 
   desc 'Migrate table'
-  task :migrate => [:environment] do
-    CreateLocations.migrate if defined?(CreateLocations)
+  task :migrate do
+    Location.create_table
   end
 
   desc 'Drop table'
   task :drop do
-    CreateLocations.drop if defined?(CreateLocations)
+    Location.drop_table
   end
 
   desc 'Resets database'
   task :reset do
-    if defined?(CreateLocations)
-      CreateLocations.drop
-      CreateLocations.migrate
-    end
+    Location.drop_table
+    Location.create_table
   end
 
 end
