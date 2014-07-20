@@ -9,4 +9,5 @@ group :test, :development do
   gem 'shotgun'
   gem 'rspec'
   gem 'capybara'
+  gem 'rack-test'
 end

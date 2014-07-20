@@ -60,6 +60,7 @@ PLATFORMS
 DEPENDENCIES
   capybara
   pry
+  rack-test
   rake
   rspec
   shotgun
