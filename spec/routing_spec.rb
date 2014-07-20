@@ -21,9 +21,11 @@ describe 'Routes' do
   describe 'POST /' do
     before do
       post '/', {
-        :name => 'a-test-map',
-        :latitude => 42.0,
-        :longitude => 42.0
+        :location => {
+          :map_name => 'a-test-map',
+          :latitude => 42.0,
+          :longitude => 42.0
+        }
       }
       follow_redirect!
     end
@@ -33,13 +35,13 @@ describe 'Routes' do
     end
 
     it 'redirects to the page for the new map' do
-      expect(last_request.location).to end_with('/a-test-map')
+      expect(last_response.location).to end_with('/a-test-map')
     end
   end
 
-  describe 'GET /:map-name' do
+  describe 'GET /:map_name' do
     before do
-      Location.create(:name => 'a-test-map', :latitude => 42.0, :longitude => 42.0)
+      Location.create(:map_name => 'a-test-map', :latitude => 42.0, :longitude => 42.0)
       get '/a-test-map'
     end
 
