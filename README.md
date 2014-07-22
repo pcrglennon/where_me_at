@@ -8,8 +8,7 @@ Google Maps Location Thing
 Title<br>
 Enter map name<br>
 Googl Map iFrame<br>
-Email field<br>
-Text field<br>
+Email or Phone Number field<br>
 Map name<br>
 Submit<br>
 
