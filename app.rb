@@ -10,7 +10,7 @@ class App < Sinatra::Base
     if @location
       erb :'show'
     else
-      redirect_to('/')
+      redirect to('/')
     end
   end
 
