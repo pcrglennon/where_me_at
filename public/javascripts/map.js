@@ -20,6 +20,7 @@ function initialize() {
       });
 
       map.setCenter(pos);
+      map.getLatitude(pos);
     }, function() {
       handleNoGeolocation(true);
     });
@@ -27,6 +28,15 @@ function initialize() {
     // Browser doesn't support Geolocation
     handleNoGeolocation(false);
   }
+
+  map.prototype.getLatitude = function(pos) {
+    var latitudeInput = "<input id='map-latitude' type='hidden' value=" + pos.k + ">"
+    $('form#new-map-form').append(latitudeInput);
+  };
+
+  this.getLongitude = function() {
+
+  };
 }
 
 function handleNoGeolocation(errorFlag) {
