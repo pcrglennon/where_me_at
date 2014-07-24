@@ -9,14 +9,14 @@
 </form>
 
 <div id="map-canvas"></div>
-  
+
 <form id="new-map-form" action="/" method="POST">
 
   <label for="address">The phone number or email you want to send to: </label>
   <input id="address" type="text" name="address" placeholder="Phone Number or Email"><br>
 
   <label for="new-map">Your Map's Name: </label>
-  <input id="new-map" type="text" name="map_name" placeholder="Map Name"><br>
+  <input id="new-map" type="text" name="location[map_name]" placeholder="Map Name"><br>
 
   <input type="submit" value="submit">
 </form>
