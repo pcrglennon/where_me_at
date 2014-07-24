@@ -15,14 +15,18 @@ function initialize() {
 
       var infowindow = new google.maps.InfoWindow({
         map: map,
-        position: pos,
-        content: 'Location found using HTML5.'
+        position: pos
       });
 
       map.setCenter(pos);
-      var latitudeInput = "<input id='map-latitude' type='hidden' value=" + pos.k + " name='latitude' />";
-      var longitudeInput = "<input id='map-longitude' type='hidden' value=" + pos.B + " name='longitude' />";
-      $('form#new-map-form').prepend(latitudeInput + longitudeInput);
+      addToForm(pos.k, pos.B);
+
+      google.maps.event.addListener(map, "click", function(event) {
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+        updateMap(lat, lng);
+      });
+
     }, function() {
       handleNoGeolocation(true);
     });
@@ -47,6 +51,22 @@ function handleNoGeolocation(errorFlag) {
 
   var infowindow = new google.maps.InfoWindow(options);
   map.setCenter(options.position);
+}
+
+function updateMap(latitude, longitude) { 
+  var zoom = 18; 
+  centerAt = new google.maps.LatLng(latitude, longitude); 
+  map.setZoom(zoom); 
+  map.setCenter(centerAt);
+  addToForm(latitude, longitude);
+}
+
+function addToForm(latitude, longitude) {
+  var latitudeInput = "<input id='map-latitude' type='hidden' value=" + latitude + " name='latitude' />";
+  var longitudeInput = "<input id='map-longitude' type='hidden' value=" + longitude + " name='longitude' />";
+  $('#map-latitude').remove();
+  $('#map-longitude').remove();
+  $('form#new-map-form').prepend(latitudeInput + longitudeInput);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
