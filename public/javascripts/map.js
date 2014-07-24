@@ -20,8 +20,8 @@ function initialize() {
       });
 
       map.setCenter(pos);
-      var latitudeInput = "<input id='map-latitude' type='hidden' value=" + pos.k + " name='map-latitude' />";
-      var longitudeInput = "<input id='map-longitude' type='hidden' value=" + pos.B + " name='map-longitude' />";
+      var latitudeInput = "<input id='map-latitude' type='hidden' value=" + pos.k + " name='latitude' />";
+      var longitudeInput = "<input id='map-longitude' type='hidden' value=" + pos.B + " name='longitude' />";
       $('form#new-map-form').prepend(latitudeInput + longitudeInput);
     }, function() {
       handleNoGeolocation(true);

@@ -5,6 +5,13 @@ class App < Sinatra::Base
     erb :'index'
   end
 
+  post '/' do
+    location = Location.new(params[:location])
+    # TODO - validate that SQL was executed correctly!
+    location.save
+    redirect to("/#{location.map_name}")
+  end
+
   get '/:map_name' do
     @location = Location.find_by_map_name(params[:map_name])
     if @location
@@ -14,10 +21,4 @@ class App < Sinatra::Base
     end
   end
 
-  post '/' do
-    location = Location.new(params[:location])
-    # TODO - validate that SQL was executed correctly!
-    location.save
-    redirect to("/#{location.map_name}")
-  end
 end
