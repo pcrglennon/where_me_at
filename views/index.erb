@@ -1,6 +1,6 @@
 <h1 id="title">OUR AWESOME APP NAME</h1>
 
-<form id="existing-map-form" action="" method="POST">
+<form id="existing-map-form" action="/" method="POST">
 
   <label for="existing-map">Existing Map Name: </label>
   <input id="existing-map" type="text" placeholder="Map Name">
@@ -10,14 +10,13 @@
 
 <div id="map-canvas"></div>
   
-<form id="new-map-form" action="" method="POST">
-  <input id="map-longitude" type="hidden" value="">
+<form id="new-map-form" action="/" method="POST">
 
   <label for="address">The phone number or email you want to send to: </label>
-  <input id="address" type="text" placeholder="Phone Number or Email"><br>
+  <input id="address" type="text" name="address" placeholder="Phone Number or Email"><br>
 
   <label for="new-map">Your Map's Name: </label>
-  <input id="new-map" type="text" placeholder="Map Name"><br>
+  <input id="new-map" type="text" name="new-map" placeholder="Map Name"><br>
 
   <input type="submit" value="submit">
 </form>
