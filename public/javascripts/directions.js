@@ -1,6 +1,4 @@
-$(function() {
-
-  var map, directionsDisplay,
+var map, directionsDisplay,
       directionsService = new google.maps.DirectionsService();
 
   function initialize() {
@@ -116,5 +114,4 @@ $(function() {
     });
   }
 
-  google.maps.event.addDomListener(window, 'load', initialize);
-});
+google.maps.event.addDomListener(window, 'load', initialize);

@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-$(function() {
-
-  var map;
-=======
 var map;
->>>>>>> a2dabbd45ccff6f0d0e606787c3211949389081a
 
   function initialize() {
     var mapOptions = {
@@ -82,11 +76,4 @@ var map;
     $('form#new-map-form').prepend(latitudeInput + longitudeInput);
   }
 
-<<<<<<< HEAD
-  google.maps.event.addDomListener(window, 'load', initialize);
-});
-=======
 google.maps.event.addDomListener(window, 'load', initialize);
-
-
->>>>>>> a2dabbd45ccff6f0d0e606787c3211949389081a
