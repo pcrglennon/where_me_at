@@ -1,5 +1,3 @@
-$(function() {
-
 var map;
 
 function initialize() {
@@ -34,6 +32,11 @@ function initialize() {
         var lat = event.latLng.k;
         var lng = event.latLng.B;
         updateMap(lat, lng);
+      });
+
+      google.maps.event.addListener(map, 'tilesloaded', function(){
+        // Map has loaded
+        console.log('Done Loading');
       });
 
     }, function() {
@@ -77,4 +80,5 @@ function addToForm(latitude, longitude) {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
-});
+
+

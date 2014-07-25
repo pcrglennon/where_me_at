@@ -4,6 +4,11 @@ html, body, #map-canvas {
   padding: 0px
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #map-canvas {
   height: 50%;
   width: 50%;
