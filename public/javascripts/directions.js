@@ -1,6 +1,7 @@
 $(function() {
 
-  var map;
+  var map, directionsDisplay,
+      directionsService = new google.maps.DirectionsService();
 
   function initialize() {
     var mapOptions = {
@@ -29,6 +30,7 @@ $(function() {
 
         map.setCenter(pos);
         addToForm(pos.k, pos.B);
+        makeDirections();
 
         google.maps.event.addListener(marker, "dragend", function(event) {
           var lat = event.latLng.k;
@@ -74,6 +76,42 @@ $(function() {
     $('#map-latitude').remove();
     $('#map-longitude').remove();
     $('form#new-map-form').prepend(latitudeInput + longitudeInput);
+  }
+
+  function makeDirections() {
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById('directions-panel'));
+    var control = document.getElementById('control');
+    control.style.display = 'block';
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+  }
+
+  function calcRoute() {
+
+    // sets start and end variables, which grab the contents 
+    // of the elements with an id of 'start' and 'end'
+    var start = document.getElementById('start').value;
+    var end = document.getElementById('end').value;
+
+    // sets a object literal with an origin of start, destination 
+    // of end and the travel mode 
+    var request = {
+      origin: start,
+      destination: end,
+      travelMode: google.maps.TravelMode.WALKING
+    };
+
+    // this gives the directionsService var a route of the request 
+    // object literal, and a callback method that executes upon the 
+    // receipt of the response from directionsService.  Learn more 
+    // about callbacks here, 
+    // http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
+    directionsService.route(request, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+      }
+    });
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);
