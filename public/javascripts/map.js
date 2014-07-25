@@ -18,15 +18,22 @@ function initialize() {
         position: pos
       });
 
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        draggable: true,
+        title: 'Your Position'
+      });
+
       map.setCenter(pos);
       addToForm(pos.k, pos.B);
 
-      google.maps.event.addListener(map, "click", function(event) {
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
+      google.maps.event.addListener(marker, "dragend", function(event) {
+        var lat = event.latLng.k;
+        var lng = event.latLng.B;
         updateMap(lat, lng);
       });
-      
+
     }, function() {
       handleNoGeolocation(true);
     });
@@ -53,10 +60,10 @@ function handleNoGeolocation(errorFlag) {
   map.setCenter(options.position);
 }
 
-function updateMap(latitude, longitude) { 
-  var zoom = 18; 
-  centerAt = new google.maps.LatLng(latitude, longitude); 
-  map.setZoom(zoom); 
+function updateMap(latitude, longitude) {
+  var zoom = 18;
+  centerAt = new google.maps.LatLng(latitude, longitude);
+  map.setZoom(zoom);
   map.setCenter(centerAt);
   addToForm(latitude, longitude);
 }
