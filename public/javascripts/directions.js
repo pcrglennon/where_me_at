@@ -37,14 +37,16 @@ $(function() {
           var lng = event.latLng.B;
           updateMap(lat, lng);
         });
-
-      }, function() {
-        handleNoGeolocation(true);
+      google.maps.event.addListener(map, 'tilesloaded', function(){
+        // Map has loaded
+        console.log('Done Loading');
       });
-    } else {
-      // Browser doesn't support Geolocation
-      handleNoGeolocation(false);
-    }
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
   }
 
   function handleNoGeolocation(errorFlag) {

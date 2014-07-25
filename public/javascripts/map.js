@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 $(function() {
 
   var map;
+=======
+var map;
+>>>>>>> a2dabbd45ccff6f0d0e606787c3211949389081a
 
   function initialize() {
     var mapOptions = {
@@ -35,14 +39,16 @@ $(function() {
           var lng = event.latLng.B;
           updateMap(lat, lng);
         });
-
-      }, function() {
-        handleNoGeolocation(true);
+      google.maps.event.addListener(map, 'tilesloaded', function(){
+        // Map has loaded
+        console.log('Done Loading');
       });
-    } else {
-      // Browser doesn't support Geolocation
-      handleNoGeolocation(false);
-    }
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
   }
 
   function handleNoGeolocation(errorFlag) {
@@ -76,5 +82,11 @@ $(function() {
     $('form#new-map-form').prepend(latitudeInput + longitudeInput);
   }
 
+<<<<<<< HEAD
   google.maps.event.addDomListener(window, 'load', initialize);
 });
+=======
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+>>>>>>> a2dabbd45ccff6f0d0e606787c3211949389081a
