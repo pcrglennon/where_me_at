@@ -1,3 +1,5 @@
+$(function() {
+
 var map;
 
 function initialize() {
@@ -61,9 +63,7 @@ function handleNoGeolocation(errorFlag) {
 }
 
 function updateMap(latitude, longitude) {
-  var zoom = 18;
   centerAt = new google.maps.LatLng(latitude, longitude);
-  map.setZoom(zoom);
   map.setCenter(centerAt);
   addToForm(latitude, longitude);
 }
@@ -77,3 +77,4 @@ function addToForm(latitude, longitude) {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+});
