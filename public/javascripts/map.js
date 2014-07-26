@@ -75,5 +75,6 @@ var map;
     $('#map-longitude').remove();
     $('form#new-map-form').prepend(latitudeInput + longitudeInput);
   }
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);

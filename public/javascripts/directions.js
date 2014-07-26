@@ -113,5 +113,6 @@ var map, directionsDisplay,
       }
     });
   }
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);
