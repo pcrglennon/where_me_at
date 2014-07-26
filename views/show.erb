@@ -3,4 +3,9 @@
 <h3>Map Latitude: <%= @location.latitude %></h3>
 <h3>Map Longitude: <%= @location.longitude %></h3>
 
+<input id="end" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
+
+<div id="directions"></div>
+<div id="map-canvas"></div>
+
 <script type="text/javascript" src="javascripts/directions.js"></script>

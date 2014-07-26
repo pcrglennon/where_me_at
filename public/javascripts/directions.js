@@ -1,46 +1,43 @@
-var map, directionsDisplay,
-      directionsService = new google.maps.DirectionsService();
+var map, directionsDisplay, pos;
+var directionsService = new google.maps.DirectionsService();
 
-  function initialize() {
-    var mapOptions = {
-      zoom: 18
-    };
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
+function initialize() {
+  var mapOptions = {
+    zoom: 18
+  };
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-    // Try HTML5 geolocation
-    if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = new google.maps.LatLng(position.coords.latitude,
-                                         position.coords.longitude);
-
-        var infowindow = new google.maps.InfoWindow({
-          map: map,
-          position: pos
-        });
-
-        var marker = new google.maps.Marker({
-          position: pos,
-          map: map,
-          draggable: true,
-          title: 'Your Position'
-        });
-
-        map.setCenter(pos);
-        addToForm(pos.k, pos.B);
-        makeDirections();
-
-        google.maps.event.addListener(marker, "dragend", function(event) {
-          var lat = event.latLng.k;
-          var lng = event.latLng.B;
-          updateMap(lat, lng);
-        });
-      google.maps.event.addListener(map, 'tilesloaded', function(){
-        // Map has loaded
-        console.log('Done Loading');
+  // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      pos = new google.maps.LatLng(position.coords.latitude,
+                                  position.coords.longitude);
+      // displayCurrentLocation(pos);
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos
       });
-    }, function() {
-      handleNoGeolocation(true);
+
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        draggable: true,
+        title: 'Your Position'
+      });
+
+      map.setCenter(pos);
+
+      google.maps.event.addListener(marker, "dragend", function(event) {
+        var lat = event.latLng.k;
+        var lng = event.latLng.B;
+        updateMap(lat, lng);
+      });
+    google.maps.event.addListener(map, 'tilesloaded', function(){
+      // Map has loaded
+      console.log('Done Loading');
+    });
+  }, function() {
+    handleNoGeolocation(true);
     });
   } else {
     // Browser doesn't support Geolocation
@@ -64,55 +61,59 @@ var map, directionsDisplay,
     map.setCenter(options.position);
   }
 
-  function updateMap(latitude, longitude) {
-    centerAt = new google.maps.LatLng(latitude, longitude);
-    map.setCenter(centerAt);
-    addToForm(latitude, longitude);
-  }
+  directionsDisplay = new google.maps.DirectionsRenderer({
+    map: map
+  });
 
-  function addToForm(latitude, longitude) {
-    var latitudeInput = "<input id='map-latitude' type='hidden' value=" + latitude + " name='location[latitude]' />";
-    var longitudeInput = "<input id='map-longitude' type='hidden' value=" + longitude + " name='location[longitude]' />";
-    $('#map-latitude').remove();
-    $('#map-longitude').remove();
-    $('form#new-map-form').prepend(latitudeInput + longitudeInput);
-  }
+  directionsDisplay.setPanel(document.getElementById('directions'));
+}
 
-  function makeDirections() {
-    directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsDisplay.setMap(map);
-    directionsDisplay.setPanel(document.getElementById('directions-panel'));
-    var control = document.getElementById('control');
-    control.style.display = 'block';
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
-  }
+function updateMap(latitude, longitude) {
+  centerAt = new google.maps.LatLng(latitude, longitude);
+  map.setCenter(centerAt);
+  addToForm(latitude, longitude);
+}
 
-  function calcRoute() {
+function displayCurrentLocation(location) {
+  var start = '<input id="start" value="' + location + '">';
+  $('#end').before(start);
+}
 
-    // sets start and end variables, which grab the contents 
-    // of the elements with an id of 'start' and 'end'
-    var start = document.getElementById('start').value;
-    var end = document.getElementById('end').value;
+function calcRoute() {
+  setTimeout(function() {
+    var $start = $('#start').val(),
+        $end = $('#end').val();
+    console.log(pos);
+    console.log($end);
+    var parsedStart = parseCoordinates($start),
+        parsedEnd = parseCoordinates($end);
 
-    // sets a object literal with an origin of start, destination 
-    // of end and the travel mode 
+    var start = new google.maps.LatLng(parsedStart[0], parsedStart[1]);
+    var end = new google.maps.LatLng(parsedEnd[0], parsedEnd[1]);
+    console.log(start);
+    console.log(end);
     var request = {
       origin: start,
       destination: end,
       travelMode: google.maps.TravelMode.WALKING
     };
 
-    // this gives the directionsService var a route of the request 
-    // object literal, and a callback method that executes upon the 
-    // receipt of the response from directionsService.  Learn more 
-    // about callbacks here, 
-    // http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/
     directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
       }
     });
-  }
+  }, 5000);
+}
+
+function parseCoordinates(coord) {
+  var separateCoord = coord.split(", ");
+  separateCoord[0] = separateCoord[0].replace("(", "");
+  separateCoord[1] = separateCoord[1].replace(")", "");
+  var finalCoord = [parseFloat(separateCoord[0]),
+                    parseFloat(separateCoord[1])];
+  return finalCoord;
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'load', calcRoute);
