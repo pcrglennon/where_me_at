@@ -12,7 +12,6 @@ function initialize() {
     navigator.geolocation.getCurrentPosition(function(position) {
       pos = new google.maps.LatLng(position.coords.latitude,
                                   position.coords.longitude);
-      // displayCurrentLocation(pos);
       var infowindow = new google.maps.InfoWindow({
         map: map,
         position: pos
@@ -74,26 +73,14 @@ function updateMap(latitude, longitude) {
   addToForm(latitude, longitude);
 }
 
-function displayCurrentLocation(location) {
-  var start = '<input id="start" value="' + location + '">';
-  $('#end').before(start);
-}
-
 function calcRoute() {
   setTimeout(function() {
-    var $start = $('#start').val(),
-        $end = $('#end').val();
-    console.log(pos);
-    console.log($end);
-    var parsedStart = parseCoordinates($start),
-        parsedEnd = parseCoordinates($end);
-
-    var start = new google.maps.LatLng(parsedStart[0], parsedStart[1]);
+    var $end = $('#end').val();
+    var parsedEnd = parseCoordinates($end);
     var end = new google.maps.LatLng(parsedEnd[0], parsedEnd[1]);
-    console.log(start);
-    console.log(end);
+
     var request = {
-      origin: start,
+      origin: pos,
       destination: end,
       travelMode: google.maps.TravelMode.WALKING
     };
