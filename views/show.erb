@@ -2,7 +2,9 @@
 
 <input id="end" type="hidden" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
 
-<div id="directions"></div>
-<div id="map-canvas"></div>
+<div id="map-container">
+  <div id="directions"></div>
+  <div id="map-canvas"></div>
+</div>
 
 <script type="text/javascript" src="javascripts/directions.js"></script>

@@ -90,7 +90,7 @@ function calcRoute() {
         directionsDisplay.setDirections(response);
       }
     });
-  }, 2000);
+  }, 4000);
 }
 
 function parseCoordinates(coord) {
