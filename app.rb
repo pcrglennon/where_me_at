@@ -38,7 +38,11 @@ class App < Sinatra::Base
 
   get '/:map_name' do
     @location = Location.find_by_map_name(params[:map_name])
-    !!@location ? erb :'show' : redirect to('/error')
+    if @location 
+      erb :'show' 
+    else 
+      redirect to('/error')
+    end
   end
 
 end
