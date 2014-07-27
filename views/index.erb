@@ -1,26 +1,33 @@
-<h1 id="title">OUR AWESOME APP NAME</h1>
+<div class="container">
 
-<div><%= @notice %></div>
+  <h1 id="title">OUR AWESOME APP NAME</h1>
 
-<form id="existing-map-form" action="/show" method="POST">
+  <div><%= @notice %></div>
 
-  <label for="existing-map">Existing Map Name: </label>
-  <input id="existing-map" type="text" name="location[map_name]" placeholder="Map Name">
+  <form id="existing-map-form" action="/show" method="POST">
 
-  <input type="submit" value="submit">
-</form>
+    <label for="existing-map">Existing Map Name: </label>
+    <input id="existing-map" type="text" name="location[map_name]" placeholder="Map Name">
 
-<div id="map-canvas"></div>
+    <input type="submit" value="submit">
+  </form>
 
-<form id="new-map-form" action="/" method="POST">
+  <div id ="map-container">
+    <div id="map-loading">MAP IS LOADING</div>
+    <div id="map-canvas"></div>
+  </div>
 
-  <label for="address">The phone number or email you want to send to: </label>
-  <input id="address" type="text" name="address" placeholder="Phone Number or Email"><br>
+  <form id="new-map-form" action="/" method="POST">
 
-  <label for="new-map">Your Map's Name: </label>
-  <input id="new-map" type="text" name="location[map_name]" placeholder="Map Name"><br>
+    <label for="address">The phone number or email you want to send to: </label>
+    <input id="address" type="text" name="address" placeholder="Phone Number or Email"><br>
 
-  <input type="submit" value="submit">
-</form>
+    <label for="new-map">Your Map's Name: </label>
+    <input id="new-map" type="text" name="location[map_name]" placeholder="Map Name"><br>
 
-<script type="text/javascript" src="javascripts/map.js"></script>
+    <input type="submit" value="submit">
+  </form>
+
+  <script type="text/javascript" src="javascripts/map.js"></script>
+
+</div>

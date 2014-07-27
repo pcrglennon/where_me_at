@@ -9,11 +9,20 @@ body {
   padding: 0;
 }
 
-#map-canvas, #map-loading, #directions {
-  height: 50%;
-  width: 50%;
+/* IMPORTANT!!! Else Map won't be visible */
+
+#map-container {
+  height: 400px;
+  width: 400px;
+  position: relative;
 }
 
 #map-loading {
-  background: #666666;
+  z-index: 1;
+  width: 400px;
+  line-height: 400px;
+  position: absolute;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
 }
