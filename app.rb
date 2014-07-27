@@ -1,5 +1,5 @@
 require './config/environment'
-require 'yaml'
+require 'sinatra/base'
 
 class App < Sinatra::Base
 
@@ -15,6 +15,11 @@ class App < Sinatra::Base
     erb :'index'
   end
 
+  get '/error' do
+    @notice = "The map name was wrong"
+    erb :'index'
+  end
+
   post '/' do
     location = Location.new(params[:location])
     # TODO - validate that SQL was executed correctly!
@@ -22,13 +27,18 @@ class App < Sinatra::Base
     redirect to("/#{location.map_name}")
   end
 
+  post '/show' do
+    location = Location.find_by_map_name(params[:location][:map_name])
+    if location
+      redirect to("/#{location.map_name}")
+    else
+      redirect to('/error')
+    end
+  end
+
   get '/:map_name' do
     @location = Location.find_by_map_name(params[:map_name])
-    if @location
-      erb :'show'
-    else
-      redirect to('/')
-    end
+    erb :'show'
   end
 
 end

@@ -9,7 +9,7 @@ body {
   padding: 0;
 }
 
-#map-canvas, #map-loading {
+#map-canvas, #map-loading, #directions {
   height: 50%;
   width: 50%;
 }
