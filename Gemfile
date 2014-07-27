@@ -3,7 +3,6 @@ gem 'sqlite3'
 gem 'sinatra'
 gem 'thin'
 gem 'rake'
-gem 'rack-flash3', :require => 'rack-flash'
 
 group :test, :development do
   gem 'pry'
