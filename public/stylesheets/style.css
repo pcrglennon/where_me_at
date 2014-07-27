@@ -9,7 +9,11 @@ body {
   padding: 0;
 }
 
-#map-canvas {
+#map-canvas, #map-loading {
   height: 50%;
   width: 50%;
+}
+
+#map-loading {
+  background: #666666;
 }

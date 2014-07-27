@@ -4,15 +4,18 @@ var map;
     var mapOptions = {
       zoom: 18
     };
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
+
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    var $mapCanvas = $('#map-canvas');
+    var $mapLoading = $('<div style="map-loading">LOADING YO</div');
+    $mapCanvas.append($mapLoading);
 
     // Try HTML5 geolocation
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(position) {
         var pos = new google.maps.LatLng(position.coords.latitude,
                                          position.coords.longitude);
-
         var infowindow = new google.maps.InfoWindow({
           map: map,
           position: pos
@@ -33,8 +36,10 @@ var map;
           var lng = event.latLng.B;
           updateMap(lat, lng);
         });
+
       google.maps.event.addListener(map, 'tilesloaded', function(){
         // Map has loaded
+        $mapLoading.remove();
         console.log('Done Loading');
       });
     }, function() {

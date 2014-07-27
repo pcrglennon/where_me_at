@@ -4,9 +4,14 @@
     <title>Justin + Peter's Google Maps Thingymajig</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-    <script src=<%= "https://maps.googleapis.com/maps/api/js?key=#{settings.google_maps_api_key}" %>></script>
+
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src=<%= "https://maps.googleapis.com/maps/api/js?key=#{settings.google_maps_api_key}" %>></script>
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
   </head>
 
   <body>
