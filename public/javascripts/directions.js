@@ -17,20 +17,20 @@ function initialize() {
         position: pos
       });
 
-      var marker = new google.maps.Marker({
-        position: pos,
-        map: map,
-        draggable: true,
-        title: 'Your Position'
-      });
+      // var marker = new google.maps.Marker({
+      //   position: pos,
+      //   map: map,
+      //   draggable: true,
+      //   title: 'Your Position'
+      // });
 
       map.setCenter(pos);
 
-      google.maps.event.addListener(marker, "dragend", function(event) {
-        var lat = event.latLng.k;
-        var lng = event.latLng.B;
-        updateMap(lat, lng);
-      });
+      // google.maps.event.addListener(marker, "dragend", function(event) {
+      //   var lat = event.latLng.k;
+      //   var lng = event.latLng.B;
+      //   updateMap(lat, lng);
+      // });
     google.maps.event.addListener(map, 'tilesloaded', function(){
       // Map has loaded
       console.log('Done Loading');

@@ -1,9 +1,6 @@
 <h1>Map Name: <%= @location.map_name %></h1>
 
-<h3>Map Latitude: <%= @location.latitude %></h3>
-<h3>Map Longitude: <%= @location.longitude %></h3>
-
-<input id="end" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
+<input id="end" type="hidden" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
 
 <div id="directions"></div>
 <div id="map-canvas"></div>
