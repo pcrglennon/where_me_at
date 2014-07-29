@@ -60,10 +60,10 @@ function initialize() {
     map.setCenter(options.position);
   }
 
-  directionsDisplay = new google.maps.DirectionsRenderer({
-    map: map
-  });
+  var rendererOptions = {draggable: true};
 
+  directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+  directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directions'));
 }
 
