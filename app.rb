@@ -49,6 +49,7 @@ class App < Sinatra::Base
                        }
       mailgun.send_message(settings.mailgun_domain, message_params)
     else
+      begin
       @client = Twilio::REST::Client.new settings.twilio_account_sid, settings.twilio_auth_token
       message = @client.account.messages.create(
         :body => "WhereMeAt???  HereMeAt!!! CHECK IT > localhost:9292/#{map_name}",
@@ -56,6 +57,9 @@ class App < Sinatra::Base
         :from => "9735102922"
         )
       puts message.to
+      rescue
+        redirect to("/#{map_name}")
+      end
     end
     redirect to("/#{map_name}")
   end
