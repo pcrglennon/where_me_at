@@ -2,6 +2,13 @@
 
 <input id="end" type="hidden" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
 
+<form id="send_link" action="<%= @location.map_name %>/send_link" method="POST">
+  <label for="address">The phone number or email you want to send to: </label>
+  <input id="address" type="text" name="address" placeholder="Phone Number or Email"><br>
+
+  <input type="submit" value="Send">
+</form>
+
 <div id="map-container">
   <div id="directions"></div>
   <div id="map-canvas"></div>

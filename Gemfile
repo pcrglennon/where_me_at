@@ -4,6 +4,8 @@ gem 'sinatra'
 gem 'thin'
 gem 'rake'
 
+gem 'mailgun-ruby'
+
 group :test, :development do
   gem 'pry'
   gem 'shotgun'

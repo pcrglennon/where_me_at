@@ -1,5 +1,6 @@
 require './config/environment'
 require 'sinatra/base'
+require 'mailgun'
 
 class App < Sinatra::Base
 
@@ -36,11 +37,24 @@ class App < Sinatra::Base
     end
   end
 
+  post '/:map_name/send_link' do
+    email = params[:address]
+    map_name = params[:map_name]
+    mailgun = Mailgun::Client.new(settings.mailgun_api_key)
+    message_params = {:from => "test@#{settings.mailgun_domain}",
+                      :to => email,
+                      :subject => "WhereMeAt???  HereMeAt!!!",
+                      :text => "CHECK IT > localhost:9292/#{map_name}"
+                     }
+    mailgun.send_message(settings.mailgun_domain, message_params)
+    redirect to("/#{map_name}")
+  end
+
   get '/:map_name' do
     @location = Location.find_by_map_name(params[:map_name])
-    if @location 
-      erb :'show' 
-    else 
+    if @location
+      erb :'show'
+    else
       redirect to('/error')
     end
   end
