@@ -3,7 +3,7 @@ gem 'sqlite3'
 gem 'sinatra'
 gem 'thin'
 gem 'rake'
-
+gem 'twilio-ruby'
 gem 'mailgun-ruby'
 
 group :test, :development do

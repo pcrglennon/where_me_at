@@ -38,15 +38,25 @@ class App < Sinatra::Base
   end
 
   post '/:map_name/send_link' do
-    email = params[:address]
+    address = params[:address]
     map_name = params[:map_name]
-    mailgun = Mailgun::Client.new(settings.mailgun_api_key)
-    message_params = {:from => "test@#{settings.mailgun_domain}",
-                      :to => email,
-                      :subject => "WhereMeAt???  HereMeAt!!!",
-                      :text => "CHECK IT > localhost:9292/#{map_name}"
-                     }
-    mailgun.send_message(settings.mailgun_domain, message_params)
+    if !address.scan(/@/).empty?
+      mailgun = Mailgun::Client.new(settings.mailgun_api_key)
+      message_params = {:from => "test@#{settings.mailgun_domain}",
+                        :to => address,
+                        :subject => "WhereMeAt???  HereMeAt!!!",
+                        :text => "CHECK IT > localhost:9292/#{map_name}"
+                       }
+      mailgun.send_message(settings.mailgun_domain, message_params)
+    else
+      @client = Twilio::REST::Client.new settings.twilio_account_sid, settings.twilio_auth_token
+      message = @client.account.messages.create(
+        :body => "CHECK IT > localhost:9292/#{map_name}",
+        :to => "#{address}",
+        :from => "9735102922"
+        )
+      puts message.to
+    end
     redirect to("/#{map_name}")
   end
 
