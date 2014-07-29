@@ -51,7 +51,7 @@ class App < Sinatra::Base
     else
       @client = Twilio::REST::Client.new settings.twilio_account_sid, settings.twilio_auth_token
       message = @client.account.messages.create(
-        :body => "CHECK IT > localhost:9292/#{map_name}",
+        :body => "WhereMeAt???  HereMeAt!!! CHECK IT > localhost:9292/#{map_name}",
         :to => "#{address}",
         :from => "9735102922"
         )
