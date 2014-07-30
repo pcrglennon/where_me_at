@@ -1,17 +1,25 @@
-<h1>Map Name: <%= @location.map_name %></h1>
+<div class="container">
+  <h1>Map Name: <%= @location.map_name %></h1>
 
-<input id="end" type="hidden" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
+  <div id="notice"><%= @notice %></div>
 
-<form id="send_link" action="<%= @location.map_name %>/send_link" method="POST">
-  <label for="address">The phone number or email you want to send to: </label>
-  <input id="address" type="text" name="address" placeholder="Phone Number or Email"><br>
+  <input id="end" type="hidden" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
 
-  <input type="submit" value="Send">
-</form>
+  <div id="map-container" class="row">
+    <div id="directions" class="col-sm-6"></div>
+    <div id="map-canvas" class="col-sm-6"></div>
+  </div>
 
-<div id="map-container">
-  <div id="directions"></div>
-  <div id="map-canvas"></div>
+  <form id="send_link" action="<%= @location.map_name %>/send_link" method="POST" class="form-horizontal">
+
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-1">
+        <input id="address" type="text" name="address" placeholder="Send to a Phone # or Email" class="form-control">
+        <button type="submit" class="btn btn-submit">Send</button>
+      </div>
+    </div>
+
+  </form>
+
+  <script type="text/javascript" src="javascripts/directions.js"></script>
 </div>
-
-<script type="text/javascript" src="javascripts/directions.js"></script>

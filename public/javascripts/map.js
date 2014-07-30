@@ -77,7 +77,7 @@ var map;
     var longitudeInput = "<input id='map-longitude' type='hidden' value=" + longitude + " name='location[longitude]' />";
     $('#map-latitude').remove();
     $('#map-longitude').remove();
-    $('form#new-map-form').prepend(latitudeInput + longitudeInput);
+    $('form#new-map').prepend(latitudeInput + longitudeInput);
   }
 }
 

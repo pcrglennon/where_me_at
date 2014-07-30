@@ -2,28 +2,33 @@
 
   <h1 id="title">OUR AWESOME APP NAME</h1>
 
-  <div><%= @notice %></div>
-
-  <form id="existing-map-form" action="/show" method="POST">
-
-    <label for="existing-map">Existing Map Name: </label>
-    <input id="existing-map" type="text" name="location[map_name]" placeholder="Map Name">
-
-    <input type="submit" value="submit">
-  </form>
+  <div id="notice"><%= @notice %></div>
 
   <div id ="map-container">
-    <div id="map-loading">MAP IS LOADING</div>
+    <div id="map-loading"><h3>MAP IS LOADING</h3></div>
     <div id="map-canvas"></div>
   </div>
 
-  <form id="new-map-form" action="/" method="POST">
+  <form id="new-map" action="/" method="POST" class="form-inline">
 
-    <label for="new-map">Your Map's Name: </label>
-    <input id="new-map" type="text" name="location[map_name]" placeholder="Map Name"><br>
+    <div class="form-group">
+      <input id="new-map" type="text" name="location[map_name]" placeholder="Map Name" class="form-control"><br>
+    </div>
 
-    <input type="submit" value="submit">
+    <button type="submit" class="btn btn-submit">Create</button>
   </form>
+
+  <!-- <form id="existing-map" action="/show" method="POST">
+
+    <div class="row">
+      <div class="form-group col-sm-4">
+        <label for="existing-map">Go to an Existing Map: </label>
+        <input id="existing-map" type="text" name="location[map_name]" placeholder="Map Name" class="form-control">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Search</button>
+  </form> -->
 
   <script type="text/javascript" src="javascripts/map.js"></script>
 

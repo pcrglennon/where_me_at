@@ -13,16 +13,18 @@ body {
 
 #map-container {
   height: 400px;
-  width: 400px;
+  width: 100%;
   position: relative;
+  padding-top: 30px;
 }
 
 #map-loading {
   z-index: 1;
-  width: 400px;
-  line-height: 400px;
+  width: 100%;
   position: absolute;
-  display: table-cell;
   text-align: center;
-  vertical-align: middle;
+}
+
+form {
+  padding-top: 30px;
 }

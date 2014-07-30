@@ -61,6 +61,7 @@ class App < Sinatra::Base
         redirect to("/#{map_name}")
       end
     end
+    @notice = "Message sent!"
     redirect to("/#{map_name}")
   end
 
