@@ -7,4 +7,4 @@ require 'sinatra/base'
 
 DB = {:conn => SQLite3::Database.new("./db/locations.db")}
 
-require './location'
+require_relative '../location'
