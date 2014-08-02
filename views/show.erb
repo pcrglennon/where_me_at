@@ -1,33 +1,38 @@
-<div class="container">
-  <h1>Map Name: <%= @location.map_name %></h1>
+<div class="top-container">
+  <h1 id="map-title" class="text-vertical-center"><%= @location.map_name %></h1>
 
   <input id="end" type="hidden" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
 
-  <div id="map-container" class="row">
+  <div id="map-container" class="row container">
     <div id="map-loading"><h3>MAP/DIRECTIONS ARE LOADING</h3></div>
     <div id="directions" class="col-sm-6"></div>
     <div id="map-canvas" class="col-sm-6"></div>
   </div>
 
-  <div id="send-link">
-    <div id="message-notice"><h3><%= @message_notice %></h3></div>
-    <div id="message-error"><h3><%= @message_error %></h3></div>
+  <div class="container">
 
-    <h3>Send this page to your friends</h3>
-    <form action="<%= @location.map_name %>/send_link" method="POST" role="form">
+    <div id="send-link">
+      <div id="message-notice"><h3><%= @message_notice %></h3></div>
+      <div id="message-error"><h3><%= @message_error %></h3></div>
 
-      <div class="form-group row">
-        <div class="col-sm-12">
-          <label for="address">Enter any number of email addresses or phone numbers, one per line.</label>
+      <h3>Send this page to your friends</h3>
+
+      <form action="<%= @location.map_name %>/send_link" method="POST" role="form">
+
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <label for="address">Enter any number of email addresses or phone numbers, one per line.</label>
+          </div>
+          <div class="col-sm-6">
+            <textarea id="addresses" name="addresses" class="form-control" rows="5"></textarea>
+          </div>
         </div>
-        <div class="col-sm-6">
-          <textarea id="addresses" name="addresses" class="form-control" rows="5"></textarea>
+        <button type="submit" class="btn btn-submit">Send</button>
         </div>
-      </div>
-      <button type="submit" class="btn btn-submit">Send</button>
-      </div>
 
-    </form>
+      </form>
+
+    </div>
 
   </div>
 
