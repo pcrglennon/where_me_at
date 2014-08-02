@@ -10,7 +10,7 @@ body {
 }
 
 #new-map {
-  margin: 40px 0px 25px 0px;
+  margin: 40px 20px 25px 0px;
   min-height: 45px;
 }
 
@@ -40,8 +40,8 @@ body {
 }
 
 #title {
-  margin: 0 auto;
-  width: 33.33333%;
+  text-align: center;
+  font-size: 3.5em;
   color: inherit;
 }
 
