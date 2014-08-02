@@ -1,6 +1,12 @@
-<div class="container">
+<div id="top-container" class="container">
 
-  <h1 id="title">OUR AWESOME APP NAME</h1>
+  <!-- Header -->
+  <header id="top" class="header">
+      <div class="text-vertical-center">
+          <h1 id="title">Where Me At</h1>
+          <br>
+      </div>
+  </header>
 
   <div id="notice"><%= @notice %></div>
 
@@ -15,7 +21,7 @@
       <input id="new-map" type="text" name="location[map_name]" placeholder="Map Name" class="form-control"><br>
     </div>
 
-    <button type="submit" class="btn btn-submit">Create</button>
+    <button type="submit" class="btn btn-submit btn-dark btn-lg">Create</button>
   </form>
 
   <!-- <form id="existing-map" action="/show" method="POST">
@@ -33,3 +39,16 @@
   <script type="text/javascript" src="javascripts/map.js"></script>
 
 </div>
+
+<section id="about" class="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>DESCRIPTION OF OUR APP</h2>
+                <p class="lead">Created at <a target="_blank" href="http://flatironschool.com/">The Flatiron School</a> by <a target="_blank" href="https://github.com/pcrglennon">Peter Glennon</a> and <a target="_blank" href="https://github.com/jusjmkim">Justin Kim</a>.</p>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+</section>
