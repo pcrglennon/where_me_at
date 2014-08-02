@@ -9,8 +9,18 @@ body {
   padding: 0;
 }
 
-form {
-  padding-top: 20px;
+#new-map {
+  margin: 40px 0px 25px 0px;
+  min-height: 45px;
+}
+
+#new-map-input {
+  font-size: 1.6em;
+  height: 100%;
+}
+
+#new-map-submit {
+  height: 100%;
 }
 
 #send-link {
@@ -27,22 +37,6 @@ form {
 
 #top-container {
   background-color: #95a5a6;
-}
-
-#new-map-form {
-  width: 50%;
-}
-
-#new-map-input {
-  font-size: 2em;
-  height: 2em;
-}
-
-#new-map {
-  text-align: center;
-  margin-left: 20em;
-  margin-right: 20em;
-  margin-bottom: 1.5em;
 }
 
 #title {
