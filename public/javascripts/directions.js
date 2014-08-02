@@ -1,4 +1,4 @@
-var map, directionsDisplay, pos;
+var map, directionsDisplay, pos, rendererOptions;
 var directionsService = new google.maps.DirectionsService();
 
 function initialize() {
@@ -17,24 +17,19 @@ function initialize() {
         position: pos
       });
 
-      // var marker = new google.maps.Marker({
-      //   position: pos,
-      //   map: map,
-      //   draggable: true,
-      //   title: 'Your Position'
-      // });
-
       map.setCenter(pos);
 
-      // google.maps.event.addListener(marker, "dragend", function(event) {
-      //   var lat = event.latLng.k;
-      //   var lng = event.latLng.B;
-      //   updateMap(lat, lng);
-      // });
-    google.maps.event.addListener(map, 'tilesloaded', function(){
+      google.maps.event.addListener(map, 'tilesloaded', function(){
       // Map has loaded
       console.log('Done Loading');
     });
+
+    rendererOptions = {draggable: true};
+    directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById('directions'));
+    calcRoute();
+
   }, function() {
     handleNoGeolocation(true);
     });
@@ -59,12 +54,6 @@ function initialize() {
     var infowindow = new google.maps.InfoWindow(options);
     map.setCenter(options.position);
   }
-
-  var rendererOptions = {draggable: true};
-
-  directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-  directionsDisplay.setMap(map);
-  directionsDisplay.setPanel(document.getElementById('directions'));
 }
 
 function updateMap(latitude, longitude) {
@@ -74,23 +63,21 @@ function updateMap(latitude, longitude) {
 }
 
 function calcRoute() {
-  setTimeout(function() {
-    var $end = $('#end').val();
-    var parsedEnd = parseCoordinates($end);
-    var end = new google.maps.LatLng(parsedEnd[0], parsedEnd[1]);
+  var $end = $('#end').val();
+  var parsedEnd = parseCoordinates($end);
+  var end = new google.maps.LatLng(parsedEnd[0], parsedEnd[1]);
 
-    var request = {
-      origin: pos,
-      destination: end,
-      travelMode: google.maps.TravelMode.WALKING
-    };
+  var request = {
+    origin: pos,
+    destination: end,
+    travelMode: google.maps.TravelMode.WALKING
+  };
 
-    directionsService.route(request, function(response, status) {
-      if (status == google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-      }
-    });
-  }, 4000);
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    }
+  });
 }
 
 function parseCoordinates(coord) {
@@ -103,4 +90,3 @@ function parseCoordinates(coord) {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
-google.maps.event.addDomListener(window, 'load', calcRoute);

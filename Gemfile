@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gem 'sqlite3'
 gem 'sinatra'
 gem 'thin'
 gem 'rake'
@@ -12,4 +11,9 @@ group :test, :development do
   gem 'rspec'
   gem 'capybara'
   gem 'rack-test'
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
 end
