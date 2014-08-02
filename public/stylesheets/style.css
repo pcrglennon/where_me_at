@@ -25,8 +25,8 @@ form {
   color: #c0392b;
 }
 
-#top-container {
-  background-color: #95a5a6;
+.top-container {
+  background-color: #ecf0f1;
 }
 
 #new-map-form {
@@ -51,6 +51,12 @@ form {
   color: inherit;
 }
 
+#map-title {
+  margin: 0 auto;
+  width: 20%;
+  font-size: 5em;
+}
+
 #top {
   padding-top: 2em;
 }
@@ -71,6 +77,8 @@ a:hover {
   width: 100%;
   position: relative;
   padding-top: 30px;
+  margin: 0 auto;
+  padding: 1.5em;
 }
 
 #map-loading {
