@@ -5,7 +5,11 @@ function initialize() {
   var mapOptions = {
     zoom: 18
   };
-  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var $mapContainer = $('#map-container');
+  var $mapLoading = $mapContainer.find('#map-loading');
 
   // Try HTML5 geolocation
   if(navigator.geolocation) {
@@ -21,7 +25,7 @@ function initialize() {
 
       google.maps.event.addListener(map, 'tilesloaded', function(){
       // Map has loaded
-      console.log('Done Loading');
+      $mapLoading.remove();
     });
 
     rendererOptions = {draggable: true};
