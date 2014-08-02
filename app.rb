@@ -17,12 +17,13 @@ class App < Sinatra::Base
   end
 
   get '/error' do
-    msg = params[:msg]
-    @error = error_msg(msg)
+    @error = error_msg(params[:msg])
     erb :'index'
   end
 
   get '/:map_name' do
+    @message_notice = message_notice(params[:message_notice])
+    @message_error = message_notice(params[:message_error])
     @location = Location.find_by_map_name(params[:map_name])
     if @location
       erb :'show'
@@ -52,10 +53,14 @@ class App < Sinatra::Base
   end
 
   post '/:map_name/send_link' do
-    address = params[:address]
+    addresses = params[:addresses].split("\r\n")
     map_name = params[:map_name]
-    @notice = send_message(address, map_name)
-    redirect to("/#{map_name}")
+    message_notice = send_messages(addresses, map_name)
+    if message_notice.include?("error")
+      redirect to("/#{map_name}?message_error=#{message_notice}")
+    else
+      redirect to("/#{map_name}?message_notice=#{message_notice}")
+    end
   end
 
   private
@@ -66,13 +71,35 @@ class App < Sinatra::Base
           "Could not find map with that name."
         when "map_name_in_use"
           "There is already a map with that name.  Please choose another name."
+        when "twilio_error"
         else
           "There was an error with your request."
       end
     end
 
+    def message_notice(msg)
+      case msg
+        when "twilio_error"
+          "Twilio Error.  Please verify the phone numbers are correct."
+        when "message_success"
+          "Message(s) sent successfully."
+      end
+    end
+
+    def send_messages(addresses, map_name)
+      notice = "message_success"
+      addresses.each do |address|
+        status = send_message(address, map_name)
+        if status.include?("Error")
+          notice = "twilio_error"
+          break
+        end
+      end
+
+      notice
+    end
+
     def send_message(address, map_name)
-      notice = nil
       if !address.scan(/@/).empty?
         send_mail(address, map_name)
         notice = "Email sent successfully."
@@ -81,7 +108,7 @@ class App < Sinatra::Base
           send_text(address, map_name)
           notice = "Text sent successfully."
         rescue
-          notice = "Twilio Error.  Please try again."
+          notice = "Twilio Error.  Please verify phone numbers are correct."
         end
       end
 
