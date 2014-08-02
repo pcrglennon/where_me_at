@@ -28,6 +28,15 @@ class Location
     DB[:conn].execute(drop)
   end
 
+  def self.map_name_exists?(map_name)
+    select = <<-SQL
+      SELECT * FROM locations
+      WHERE map_name = ?;
+    SQL
+    row = DB[:conn].execute(select, map_name).flatten
+    !row.empty?
+  end
+
   def self.find_by_map_name(map_name)
     select = <<-SQL
       SELECT * FROM locations
@@ -89,6 +98,7 @@ class Location
 
   private
 
+    # Whitelist params + normalize
     def normalize_params(params)
       # Protect against HTML injection by encoding map_name
       @map_name = URI.encode(params[:map_name])

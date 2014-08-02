@@ -9,6 +9,14 @@ body {
   padding: 0;
 }
 
+#notice {
+
+}
+
+#error h4 {
+  color: #c0392b;
+}
+
 /* IMPORTANT!!! Else Map won't be visible */
 
 #map-container {

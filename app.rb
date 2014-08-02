@@ -17,7 +17,8 @@ class App < Sinatra::Base
   end
 
   get '/error' do
-    @notice = "The map name was wrong"
+    msg = params[:msg]
+    @error = error_msg(msg)
     erb :'index'
   end
 
@@ -26,12 +27,16 @@ class App < Sinatra::Base
     if @location
       erb :'show'
     else
-      redirect to('/error')
+      redirect to('/error?msg=map_not_found')
     end
   end
 
   post '/' do
-    location = Location.new(params[:location])
+    location_params = params[:location]
+    if Location.map_name_exists?(location_params[:map_name])
+      redirect to('/error?msg=map_name_in_use')
+    end
+    location = Location.new(location_params)
     # TODO - validate that SQL was executed correctly!
     location.save
     redirect to("/#{location.map_name}")
@@ -42,7 +47,7 @@ class App < Sinatra::Base
     if location
       redirect to("/#{location.map_name}")
     else
-      redirect to('/error')
+      redirect to('/error?msg=map_not_found')
     end
   end
 
@@ -50,17 +55,24 @@ class App < Sinatra::Base
     address = params[:address]
     map_name = params[:map_name]
     @notice = send_message(address, map_name)
-    if @notice.include?("Error")
-      redirect to("/#{map_name}")
-    else
-      redirect to("/#{map_name}")
-    end
+    redirect to("/#{map_name}")
   end
 
   private
 
+    def error_msg(msg)
+      case msg
+        when "map_not_found"
+          "Could not find map with that name."
+        when "map_name_in_use"
+          "There is already a map with that name.  Please choose another name."
+        else
+          "There was an error with your request."
+      end
+    end
+
     def send_message(address, map_name)
-      notice = ""
+      notice = nil
       if !address.scan(/@/).empty?
         send_mail(address, map_name)
         notice = "Email sent successfully."
