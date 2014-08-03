@@ -6,12 +6,18 @@ require 'uri'
 class App < Sinatra::Base
 
   # config.yml file must be created first (in config folder)
-  if ENV['RACK_ENV'] == "development"
-    configure do
+  configure do
+    if ENV['RACK_ENV'] == "development"
       yaml = YAML.load_file("config/config.yml")[settings.environment.to_s]
       yaml.each_pair do |key, value|
         set(key.to_sym, value)
       end
+    else
+      set(google_maps_api_key, ENV['google_maps_api_key'])
+      set(mailgun_api_key, ENV['mailgun_api_key'])
+      set(mailgun_domain, ENV['mailgun_domain'])
+      set(twilio_account_sid, ENV['twilio_account_sid'])
+      set(twilio_auth_token, ENV['twilio_auth_token'])
     end
   end
 
