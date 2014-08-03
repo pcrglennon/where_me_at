@@ -1,6 +1,7 @@
 require './config/environment'
 require 'sinatra/base'
 require 'mailgun'
+require 'uri'
 
 class App < Sinatra::Base
 
@@ -33,11 +34,10 @@ class App < Sinatra::Base
   end
 
   post '/' do
-    location_params = params[:location]
-    if Location.map_name_exists?(location_params[:map_name])
+    if Location.find_by(map_name: params[:location][:map_name])
       redirect to('/error?msg=map_name_in_use')
     end
-    location = Location.new(location_params)
+    location = Location.new(location_params(params[:location]))
     # TODO - validate that SQL was executed correctly!
     location.save
     redirect to("/#{location.map_name}")
@@ -64,6 +64,17 @@ class App < Sinatra::Base
   end
 
   private
+
+    def location_params(location)
+      whitelisted = {}
+      # Protect against HTML injection by encoding map_name
+      whitelisted[:map_name] = URI.encode(location[:map_name])
+      # to_f would reject any HTML in the string already, so this is enough
+      whitelisted[:latitude] = location[:latitude].to_f
+      whitelisted[:longitude] = location[:longitude].to_f
+
+      whitelisted
+    end
 
     def error_msg(msg)
       case msg

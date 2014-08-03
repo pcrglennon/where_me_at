@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 gem 'sinatra'
+gem 'activerecord'
+gem 'sinatra-activerecord'
 gem 'thin'
 gem 'rake'
 gem 'twilio-ruby'

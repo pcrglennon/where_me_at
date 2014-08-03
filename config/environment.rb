@@ -5,10 +5,17 @@ Bundler.require(:default, ENV['SINATRA_ENV'])
 require 'yaml'
 require 'sinatra/base'
 
-# DB = {:conn => SQLite3::Database.new("./db/locations.db")}
-
 configure :development, :production do
-  DB = {:conn => PG.connect(dbname: 'wheremeat_development')}
+  db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/wheremeat_development')
+
+  ActiveRecord::Base.establish_connection(
+      :adapter => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
+      :host     => db.host,
+      :username => db.user,
+      :password => db.password,
+      :database => db.path[1..-1],
+      :encoding => 'utf8'
+  )
 end
 
 require_relative '../location'

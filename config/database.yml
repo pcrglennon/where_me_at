@@ -1,0 +1,6 @@
+development:
+  adapter: postgresql
+  database: wheremeat_development
+  username: wheremeat
+  password:
+  host: localhost

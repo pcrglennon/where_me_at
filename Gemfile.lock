@@ -1,6 +1,20 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (4.1.4)
+      activesupport (= 4.1.4)
+      builder (~> 3.1)
+    activerecord (4.1.4)
+      activemodel (= 4.1.4)
+      activesupport (= 4.1.4)
+      arel (~> 5.0.0)
+    activesupport (4.1.4)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    arel (5.0.1.20140414130214)
     builder (3.2.2)
     capybara (2.4.1)
       mime-types (>= 1.16)
@@ -12,6 +26,7 @@ GEM
     daemons (1.1.9)
     diff-lcs (1.2.5)
     eventmachine (1.0.3)
+    i18n (0.6.11)
     json (1.8.1)
     jwt (1.0.0)
     mailgun-ruby (1.0.2)
@@ -20,6 +35,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.3)
     mini_portile (0.6.0)
+    minitest (5.4.0)
     multi_json (1.10.1)
     netrc (0.7.7)
     nokogiri (1.6.2.1)
@@ -56,16 +72,22 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
+    sinatra-activerecord (2.0.2)
+      activerecord (>= 3.2)
+      sinatra (~> 1.0)
     slop (3.6.0)
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
+    thread_safe (0.3.4)
     tilt (1.4.1)
     twilio-ruby (3.11.6)
       builder (>= 2.1.2)
       jwt (>= 0.1.2)
       multi_json (>= 1.3.0)
+    tzinfo (1.2.1)
+      thread_safe (~> 0.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -73,6 +95,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord
   capybara
   mailgun-ruby
   pg
@@ -82,5 +105,6 @@ DEPENDENCIES
   rspec
   shotgun
   sinatra
+  sinatra-activerecord
   thin
   twilio-ruby
