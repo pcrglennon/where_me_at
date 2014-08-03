@@ -1,38 +1,45 @@
-<div class="top-container">
-  <h1 id="map-title" class="text-vertical-center"><%= @location.map_name %></h1>
+<div class="top-container container">
+  <!-- Header -->
+  <header id="top" class="header">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <h1 id="title"><%= @location.map_name %></h1>
+      </div>
+    </div>
+  </header>
 
   <input id="end" type="hidden" value="(<%= @location.latitude %>, <%= @location.longitude %>)">
 
-  <div id="map-container" class="row container">
+  <div id="map-container" class="row">
     <div id="map-loading"><h3>MAP/DIRECTIONS ARE LOADING</h3></div>
-    <div id="directions" class="col-sm-6"></div>
-    <div id="map-canvas" class="col-sm-6"></div>
+    <div id="map-canvas" class="col-xs-12 col-sm-6"></div>
+    <div id="directions" class="col-xs-12 col-sm-6"></div>
   </div>
 
-  <div class="container">
+  <div id="send-link" class="row">
+    <div id="message-notice"><h3><%= @message_notice %></h3></div>
+    <div id="message-error"><h3><%= @message_error %></h3></div>
 
-    <div id="send-link">
-      <div id="message-notice"><h3><%= @message_notice %></h3></div>
-      <div id="message-error"><h3><%= @message_error %></h3></div>
+    <h3>Send this page to your friends</h3>
 
-      <h3>Send this page to your friends</h3>
+    <form action="<%= @location.map_name %>/send_link" method="POST" role="form">
 
-      <form action="<%= @location.map_name %>/send_link" method="POST" role="form">
-
-        <div class="form-group row">
-          <div class="col-sm-12">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-8">
             <label for="address">Enter any number of email addresses or phone numbers, one per line.</label>
           </div>
-          <div class="col-sm-6">
+        </div>
+        <div class="row">
+          <div class="col-sm-8">
             <textarea id="addresses" name="addresses" class="form-control" rows="5"></textarea>
           </div>
         </div>
+      </div>
         <button type="submit" class="btn btn-submit">Send</button>
-        </div>
+      </div>
 
-      </form>
-
-    </div>
+    </form>
 
   </div>
 

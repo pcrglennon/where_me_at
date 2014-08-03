@@ -32,6 +32,7 @@ body {
 }
 
 #error h3, #message-error h3 {
+  margin-left: 50px;
   color: #c0392b;
 }
 
@@ -68,7 +69,6 @@ a:hover {
 
 #map-container {
   height: 400px;
-  width: 100%;
   position: relative;
   padding-top: 30px;
   margin: 0 auto;

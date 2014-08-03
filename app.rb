@@ -140,7 +140,7 @@ class App < Sinatra::Base
                         :from => "test@#{settings.mailgun_domain}",
                         :to => address,
                         :subject => "WhereMeAt???  HereMeAt!!!",
-                        :text => "CHECK IT > localhost:9292/#{map_name}"
+                        :text => "CHECK IT > wheremeat.com/#{map_name}"
                        }
       mailgun.send_message(settings.mailgun_domain, message_params)
     end
@@ -148,7 +148,7 @@ class App < Sinatra::Base
     def send_text(address, map_name)
       @client = Twilio::REST::Client.new settings.twilio_account_sid, settings.twilio_auth_token
       message = @client.account.messages.create(
-        :body => "WhereMeAt???  HereMeAt!!! CHECK IT > localhost:9292/#{map_name}",
+        :body => "WhereMeAt???  HereMeAt!!! CHECK IT > wheremeat.com/#{map_name}",
         :to => "#{address}",
         :from => "9735102922"
       )
