@@ -12,37 +12,37 @@ class Location
   def self.create_table
     migrate = <<-SQL
       CREATE TABLE IF NOT EXISTS locations(
-        id INTEGER PRIMARY KEY,
-        map_name STRING,
+        id SERIAL PRIMARY KEY,
+        map_name TEXT,
         latitude FLOAT,
         longitude FLOAT
       );
     SQL
-    DB[:conn].execute(migrate)
+    DB[:conn].exec(migrate)
   end
 
   def self.drop_table
     drop = <<-SQL
       DROP TABLE IF EXISTS locations;
     SQL
-    DB[:conn].execute(drop)
+    DB[:conn].exec(drop)
   end
 
   def self.map_name_exists?(map_name)
     select = <<-SQL
       SELECT * FROM locations
-      WHERE map_name = ?;
+      WHERE map_name = $1;
     SQL
-    row = DB[:conn].execute(select, map_name).flatten
+    row = DB[:conn].exec_params(select, [map_name]).values.flatten
     !row.empty?
   end
 
   def self.find_by_map_name(map_name)
     select = <<-SQL
       SELECT * FROM locations
-      WHERE map_name = ?;
+      WHERE map_name = $1;
     SQL
-    row = DB[:conn].execute(select, map_name).flatten
+    row = DB[:conn].exec_params(select, [map_name]).values.flatten
     if row.empty?
       nil
     else
@@ -81,19 +81,20 @@ class Location
   def insert
     insert = <<-SQL
       INSERT INTO locations (map_name, latitude, longitude)
-      VALUES (?, ?, ?);
+      VALUES ($1, $2, $3)
+      RETURNING id;
     SQL
-    DB[:conn].execute(insert, map_name, latitude, longitude)
-    self.id = DB[:conn].last_insert_row_id
+    id = DB[:conn].exec_params(insert, [map_name, latitude, longitude]).values.flatten.first
+    self.id = id
   end
 
   def update
     update = <<-SQL
       UPDATE locations
-      SET (map_name = ?, latitude = ?, longitude = ?)
-      WHERE id = ?;
+      SET (map_name = $1, latitude = $2, longitude = $3)
+      WHERE id = $4;
     SQL
-    DB[:conn].execute(update, id, map_name, latitude, longitude)
+    DB[:conn].exec_params(update, [map_name, latitude, longitude, id])
   end
 
   private

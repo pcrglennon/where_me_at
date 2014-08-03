@@ -5,11 +5,10 @@ Bundler.require(:default, ENV['SINATRA_ENV'])
 require 'yaml'
 require 'sinatra/base'
 
-if ENV['SINATRA_ENV'] == "development"
-  DB = {:conn => SQLite3::Database.new("./db/locations.db")}
-else
-  console.log(ENV)
-  # DB = {:conn => PG.connect()}
+# DB = {:conn => SQLite3::Database.new("./db/locations.db")}
+
+configure :development, :production do
+  DB = {:conn => PG.connect(dbname: 'wheremeat_development')}
 end
 
 require_relative '../location'

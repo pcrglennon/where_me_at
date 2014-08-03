@@ -5,15 +5,12 @@ gem 'rake'
 gem 'twilio-ruby'
 gem 'mailgun-ruby'
 
+gem 'pg'
+
 group :test, :development do
   gem 'pry'
   gem 'shotgun'
   gem 'rspec'
   gem 'capybara'
   gem 'rack-test'
-  gem 'sqlite3'
-end
-
-group :production do
-  gem 'pg'
 end
