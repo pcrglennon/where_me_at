@@ -6,10 +6,12 @@ require 'uri'
 class App < Sinatra::Base
 
   # config.yml file must be created first (in config folder)
-  configure do
-    yaml = YAML.load_file("config/config.yml")[settings.environment.to_s]
-    yaml.each_pair do |key, value|
-      set(key.to_sym, value)
+  if ENV['SINATRA_ENV'] == "development"
+    configure do
+      yaml = YAML.load_file("config/config.yml")[settings.environment.to_s]
+      yaml.each_pair do |key, value|
+        set(key.to_sym, value)
+      end
     end
   end
 
