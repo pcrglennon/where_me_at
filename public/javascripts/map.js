@@ -39,7 +39,7 @@ var map;
       google.maps.event.addListener(map, 'tilesloaded', function(){
         // Map has loaded
         $mapLoading.remove();
-        console.log('Done Loading');
+        $('#new-map button[type="submit"]').prop('disabled', false);
       });
     }, function() {
       handleNoGeolocation(true);
