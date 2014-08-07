@@ -76,7 +76,7 @@ class App < Sinatra::Base
     def location_params(location)
       whitelisted = {}
       # Protect against HTML injection by encoding map_name
-      whitelisted[:map_name] = URI.encode(location[:map_name])
+      whitelisted[:map_name] = URI.encode(normalize_name(location[:map_name]))
       # to_f would reject any HTML in the string already, so this is enough
       whitelisted[:latitude] = location[:latitude].to_f
       whitelisted[:longitude] = location[:longitude].to_f
@@ -153,6 +153,10 @@ class App < Sinatra::Base
         :from => "9735102922"
       )
       puts message.to
+    end
+
+    def normalize_name(name)
+      name.gsub(" ", "-")
     end
 
 end
