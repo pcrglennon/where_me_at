@@ -4,3 +4,7 @@ development:
   username: wheremeat
   password:
   host: localhost
+
+test:
+  adapter: sqlite3
+  databse: db/test.sqlite3

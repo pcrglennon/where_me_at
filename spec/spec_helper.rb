@@ -1,5 +1,21 @@
-ENV['SINATRA_ENV'] = 'test'
+ENV['RACK_ENV'] = "test"
 
 require_relative '../config/environment'
 
-DB[:conn] = SQLite3::Database.new(":memory:")
+RSpec.configure do |config|
+
+  ActiveRecord::Base.logger = nil
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+end
+

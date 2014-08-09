@@ -8,14 +8,6 @@ describe 'Routes' do
     App.new
   end
 
-  before do
-    Location.create_table
-  end
-
-  after do
-    Location.drop_table
-  end
-
   describe 'GET /' do
     before do
       get '/'
