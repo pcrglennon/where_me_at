@@ -42,13 +42,16 @@ class App < Sinatra::Base
   end
 
   post '/' do
-    if Location.find_by(map_name: params[:location][:map_name])
-      redirect to('/error?msg=map_name_in_use')
-    end
     location = Location.new(location_params(params[:location]))
-    # TODO - validate that SQL was executed correctly!
-    location.save
-    redirect to("/#{location.map_name}")
+    if location.save
+      redirect to("/#{location.map_name}")
+    else
+      if location.errors[:map_name]
+        redirect to('/error?msg=map_name_in_use')
+      else
+        redirect to('/error')
+      end
+    end
   end
 
   post '/show' do
