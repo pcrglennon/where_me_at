@@ -2,6 +2,7 @@
 config/config.yml
 
 db/*.db
+db/*.sqlite3
 
 # Sublime stuff
 *.sublime-project
