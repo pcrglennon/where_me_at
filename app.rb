@@ -90,7 +90,6 @@ class App < Sinatra::Base
           "Could not find map with that name."
         when "map_name_in_use"
           "There is already a map with that name.  Please choose another name."
-        when "twilio_error"
         else
           "There was an error with your request."
       end

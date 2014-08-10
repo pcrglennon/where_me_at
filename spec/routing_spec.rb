@@ -19,23 +19,53 @@ describe 'Routes' do
   end
 
   describe 'POST /' do
-    before do
-      post '/', {
-        :location => {
-          :map_name => 'a-test-map',
-          :latitude => 42.0,
-          :longitude => 42.0
+    context 'creating a map with a unique name' do
+      before do
+        post '/', {
+          :location => {
+            :map_name => 'a-test-map',
+            :latitude => 42.0,
+            :longitude => 42.0
+          }
         }
-      }
-      follow_redirect!
+        follow_redirect!
+      end
+
+      it 'responds with a 200 status code' do
+        expect(last_response).to be_ok
+      end
+
+      it 'redirects to the page for the new map' do
+        expect(last_request.url).to end_with('/a-test-map')
+      end
     end
 
-    it 'responds with a 200 status code' do
-      expect(last_response).to be_ok
-    end
+    context 'creating a map with a name already in use' do
+      before do
+        Location.create(:map_name => 'a-test-map', :latitude => 42.0, :longitude => 42.0)
+        post '/', {
+          :location => {
+            :map_name => 'a-test-map',
+            :latitude => 0.0,
+            :longitude => 0.0
+          }
+        }
+        follow_redirect!
+      end
 
-    it 'redirects to the page for the new map' do
-      expect(last_request.url).to end_with('/a-test-map')
+      it 'responds with a 200 status code' do
+        expect(last_response).to be_ok
+      end
+
+      it 'redirects back to the home page with an error message' do
+        expect(last_request.url).to end_with('error?msg=map_name_in_use')
+        expect(last_response.body).to include('There is already a map with that name.')
+      end
+
+      it 'does not create another map with the same name, and does not override the original' do
+        expect(Location.where(map_name: "a-test-map").size).to eq(1)
+        expect(Location.find_by(map_name: "a-test-map").latitude).to eq(42.0)
+      end
     end
   end
 
