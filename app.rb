@@ -1,24 +1,18 @@
 require './config/environment'
 require 'sinatra/base'
-require 'mailgun'
 require 'uri'
 
 class App < Sinatra::Base
 
-  # config.yml file must be created first (in config folder)
   configure do
-    if ENV['RACK_ENV'] == "development" || ENV['RACK_ENV'] == "test"
-      yaml = YAML.load_file("config/config.yml")[settings.environment.to_s]
-      yaml.each_pair do |key, value|
-        set(key.to_sym, value)
-      end
+    if ENV['RACK_ENV'] == "production"
+      google_maps_api_key = ENV['google_maps_api_key']
     else
-      set(:google_maps_api_key, ENV['google_maps_api_key'])
-      set(:mailgun_api_key, ENV['mailgun_api_key'])
-      set(:mailgun_domain, ENV['mailgun_domain'])
-      set(:twilio_account_sid, ENV['twilio_account_sid'])
-      set(:twilio_auth_token, ENV['twilio_auth_token'])
+      require 'yaml'
+      google_maps_api_key = YAML.load_file("config/config.yml")[settings.environment.to_s]["google_maps_api_key"]
     end
+
+    set(:google_maps_api_key, google_maps_api_key)
   end
 
   get '/' do
@@ -49,7 +43,7 @@ class App < Sinatra::Base
     if location.save
       msg = "map_saved"
       if params[:addresses] && params[:addresses].length > 0
-        message_notice = send_messages(params[:addresses], location.map_name)
+        message_notice = MessageHelper.send_messages(params[:addresses], location.map_name)
         if message_notice.include?("error")
           location.destroy
           redirect to("/error?msg=#{message_notice}")
@@ -116,52 +110,4 @@ class App < Sinatra::Base
       end
     end
 
-    def send_messages(addresses, map_name)
-      notice = "message_success"
-      addresses.split("\r\n").each do |address|
-        status = send_message(address, map_name)
-        if status.include?("Error")
-          notice = "twilio_error"
-          break
-        end
-      end
-
-      notice
-    end
-
-    def send_message(address, map_name)
-      if !address.scan(/@/).empty?
-        send_mail(address, map_name)
-        notice = "Email sent successfully."
-      else
-        begin
-          send_text(address, map_name)
-          notice = "Text sent successfully."
-        rescue
-          notice = "Twilio Error.  Please verify phone numbers are correct."
-        end
-      end
-
-      notice
-    end
-
-    def send_mail(address, map_name)
-      mailgun = Mailgun::Client.new(settings.mailgun_api_key)
-      message_params = {
-                        :from => "test@#{settings.mailgun_domain}",
-                        :to => address,
-                        :subject => "WhereMeAt???  HereMeAt!!!",
-                        :text => "CHECK IT > wheremeat.com/#{map_name}"
-                       }
-      mailgun.send_message(settings.mailgun_domain, message_params)
-    end
-
-    def send_text(address, map_name)
-      @client = Twilio::REST::Client.new settings.twilio_account_sid, settings.twilio_auth_token
-      message = @client.account.messages.create(
-        :body => "WhereMeAt???  HereMeAt!!! CHECK IT > wheremeat.com/#{map_name}",
-        :to => "#{address}",
-        :from => "9735102922"
-      )
-    end
 end

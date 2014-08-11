@@ -2,8 +2,6 @@ ENV['RACK_ENV'] ||= "development"
 
 require 'bundler'
 Bundler.require(:default, ENV['RACK_ENV'])
-require 'yaml'
-require 'sinatra/base'
 
 configure :development, :production do
   db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/wheremeat_development')
@@ -25,3 +23,4 @@ configure :test do
 end
 
 require_relative '../location'
+require_relative '../message_helper'
