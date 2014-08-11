@@ -14,9 +14,20 @@ body {
   min-height: 45px;
 }
 
-#new-map-input {
-  font-size: 1.6em;
+#new-map input {
+  font-size: 1.5em;
   height: 100%;
+}
+
+#new-map textarea {
+  font-size: 1.32em;
+  height: 100%;
+}
+
+#new-map label {
+  margin-left: 2px;
+  color: #555757;
+  font-size: 1.2em;
 }
 
 #new-map-submit {
@@ -27,12 +38,13 @@ body {
   margin: 45px 0px 40px 0px;
 }
 
-#message-notice h3 {
+#success h3 {
+  text-align: center;
   color: #27ae60;
 }
 
-#error h3, #message-error h3 {
-  margin-left: 50px;
+#error h3 {
+  text-align: center;
   color: #c0392b;
 }
 
@@ -62,6 +74,15 @@ a {
 
 a:hover {
   color: inherit;
+  text-decoration: none;
+}
+
+a.blue {
+  color: #2980b9;
+}
+
+a.blue:hover {
+  color: #34495e;
   text-decoration: none;
 }
 
