@@ -5,6 +5,7 @@ html, body, #map-canvas {
 }
 
 body {
+  background-color: #ecf0f1;
   margin: 0;
   padding: 0;
 }
@@ -48,8 +49,8 @@ body {
   color: #c0392b;
 }
 
-.top-container {
-  background-color: #ecf0f1;
+#about {
+  background-color: white;
 }
 
 #title {
