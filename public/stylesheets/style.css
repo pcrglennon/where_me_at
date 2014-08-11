@@ -92,9 +92,8 @@ a.blue:hover {
 #map-container {
   height: 400px;
   position: relative;
-  padding-top: 30px;
   margin: 0 auto;
-  padding: 1.5em;
+  padding: 30px 40px 30px 40px;
 }
 
 #map-loading {
