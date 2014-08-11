@@ -23,7 +23,7 @@ describe 'Routes' do
       @location_params = {map_name: "a-test-map", latitude: 42.0, longitude: 42.0}
     end
 
-    context 'creating a map with a unique name' do
+    describe 'creating a map with a unique name' do
       before do
         post '/', {
           location: @location_params
@@ -35,27 +35,72 @@ describe 'Routes' do
         expect(last_response).to be_ok
       end
 
-      it 'redirects to the page for the new map' do
-        expect(last_request.url).to end_with('/a-test-map')
+      it 'redirects to the success page' do
+        expect(last_request.path).to eq('/success')
+        expect(last_response.body).to include('Map saved successfully.')
+      end
+    end
+
+    describe 'sending messages' do
+      context 'to a valid phone number' do
+        before do
+          post '/', {
+            location: @location_params,
+            # Took this phone # from the Twilio Testing docs!
+            addresses: "14108675309"
+          }
+          follow_redirect!
+        end
+
+        it 'responds with a 200 status code' do
+          expect(last_response).to be_ok
+        end
+
+        it 'redirects back to the home page with a success message' do
+          expect(last_request.path).to eq('/success')
+          expect(last_response.body).to include('Map saved and message(s) sent successfully.')
+        end
       end
 
-      context 'and sending messages' do
-        context 'to a valid phone number' do
-          before do
-            post '/', {
-              location: @location_params,
-              addresses: [5555555555]
-            }
-          end
+      context 'to a valid phone number and email address' do
+        before do
+          post '/', {
+            location: @location_params,
+            addresses: "14108675309\r\nfoo@bar.com"
+          }
+          follow_redirect!
+        end
 
-          it 'responds with a 200 status code' do
-            expect(last_response).to be_ok
-          end
+        it 'responds with a 200 status code' do
+          expect(last_response).to be_ok
+        end
 
-          it 'redirects back to the home page with a success message' do
-            expect(last_request.path).to eq("/")
-            expect(last_response.body).to include('Message(s) sent successfully')
-          end
+        it 'redirects back to the home page with a success message' do
+          expect(last_request.path).to eq('/success')
+          expect(last_response.body).to include('Map saved and message(s) sent successfully.')
+        end
+      end
+
+      context 'to an invalid phone number' do
+        before do
+          post '/', {
+            location: @location_params,
+            addresses: "5555"
+          }
+          follow_redirect!
+        end
+
+        it 'responds with a 200 status code' do
+          expect(last_response).to be_ok
+        end
+
+        it 'redirects back to the home page with an error message' do
+          expect(last_request.path).to eq("/error")
+          expect(last_response.body).to include('Twilio Error.')
+        end
+
+        it 'deletes the created map, so the user can create it again' do
+          expect(Location.find_by(map_name: "a-test-map")).to be(nil)
         end
       end
     end
@@ -84,26 +129,12 @@ describe 'Routes' do
         expect(Location.find_by(map_name: "a-test-map").latitude).to eq(42.0)
       end
     end
-
-    context 'creating a map and sending' do
-      before do
-        Location.create(:map_name => 'a-test-map', :latitude => 42.0, :longitude => 42.0)
-        post '/', {
-          :location => {
-            :map_name => 'a-test-map',
-            :latitude => 0.0,
-            :longitude => 0.0
-          }
-        }
-        follow_redirect!
-      end
-    end
   end
 
   describe 'GET /:map_name' do
     before do
-      Location.create(:map_name => 'a-test-map-get', :latitude => 42.0, :longitude => 42.0)
-      get '/a-test-map-get'
+      Location.create(:map_name => 'a-test-map', :latitude => 42.0, :longitude => 42.0)
+      get '/a-test-map'
     end
 
     it 'responds with a 200 status code' do
@@ -111,7 +142,7 @@ describe 'Routes' do
     end
 
     it 'shows the correct map' do
-      expect(last_response.body).to include('a-test-map-get')
+      expect(last_response.body).to include('a test map')
     end
   end
 
