@@ -22,4 +22,5 @@ end
 group :test do
   gem 'sqlite3'
   gem 'database_cleaner'
+  gem 'simplecov', :require => false
 end

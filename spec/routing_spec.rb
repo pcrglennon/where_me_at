@@ -134,16 +134,37 @@ describe 'Routes' do
   describe 'GET /:map_name' do
     before do
       Location.create(:map_name => 'a-test-map', :latitude => 42.0, :longitude => 42.0)
-      get '/a-test-map'
     end
 
-    it 'responds with a 200 status code' do
-      expect(last_response).to be_ok
+    context 'finding an existing map' do
+      before do
+        get '/a-test-map'
+      end
+
+      it 'responds with a 200 status code' do
+        expect(last_response).to be_ok
+      end
+
+      it 'shows the correct map' do
+        expect(last_response.body).to include('a test map')
+      end
     end
 
-    it 'shows the correct map' do
-      expect(last_response.body).to include('a test map')
+    context 'looking for a non-existant map' do
+      before do
+        get '/a-non-existant-map'
+
+        follow_redirect!
+      end
+
+      it 'responds with a 200 status code' do
+        expect(last_response).to be_ok
+      end
+
+      it 'redirects to the home page with an error message' do
+        expect(last_request.path).to eq("/error")
+        expect(last_response.body).to include('Could not find map with that name.')
+      end
     end
   end
-
 end

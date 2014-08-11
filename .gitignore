@@ -4,6 +4,11 @@ config/config.yml
 db/*.db
 db/*.sqlite3
 
+# SimpleCov
+coverage/
+
+.DS_Store
+
 # Sublime stuff
 *.sublime-project
 *.sublime-workspace

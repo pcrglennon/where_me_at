@@ -61,16 +61,6 @@ class App < Sinatra::Base
     end
   end
 
-  post '/show' do
-    location = Location.find_by(map_name: normalize_map_name(params[:location][:map_name]))
-    if location
-      redirect to("/#{location.map_name}")
-    else
-      redirect to('/error?msg=map_not_found')
-    end
-  end
-
-
   private
 
     def location_params(location)
