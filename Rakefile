@@ -11,7 +11,7 @@ end
 namespace :db do
   desc 'Deletes all saved locations older than 2 hours'
   task :purge_locations do
-    Location.where('created_at < ?', 2.hours.ago).each do |location|
+    Location.where('created_at < ?', 2.hours.ago.utc).each do |location|
       location.destroy
     end
   end
