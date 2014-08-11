@@ -22,5 +22,5 @@ configure :test do
     )
 end
 
-require_relative '../location'
-require_relative '../message_helper'
+require_relative '../models/location'
+require_relative '../helpers/message_helper'
