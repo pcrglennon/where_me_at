@@ -7,7 +7,7 @@ class App < Sinatra::Base
 
   # config.yml file must be created first (in config folder)
   configure do
-    if ENV['RACK_ENV'] == "development"
+    if ENV['RACK_ENV'] == "development" || ENV['RACK_ENV'] == "test"
       yaml = YAML.load_file("config/config.yml")[settings.environment.to_s]
       yaml.each_pair do |key, value|
         set(key.to_sym, value)
@@ -30,10 +30,13 @@ class App < Sinatra::Base
     erb :'index'
   end
 
+  get '/success' do
+    @success = success_msg(params[:msg])
+    erb :'index'
+  end
+
   get '/:map_name' do
-    @message_notice = message_notice(params[:message_notice])
-    @message_error = message_notice(params[:message_error])
-    @location = Location.find_by_map_name(params[:map_name])
+    @location = Location.find_by(map_name: params[:map_name])
     if @location
       erb :'show'
     else
@@ -44,7 +47,17 @@ class App < Sinatra::Base
   post '/' do
     location = Location.new(location_params(params[:location]))
     if location.save
-      redirect to("/#{location.map_name}")
+      msg = "map_saved"
+      if params[:addresses] && params[:addresses].length > 0
+        message_notice = send_messages(params[:addresses], location.map_name)
+        if message_notice.include?("error")
+          location.destroy
+          redirect to("/error?msg=#{message_notice}")
+        else
+          msg << "_messages_sent"
+        end
+      end
+      redirect to("/success?msg=#{msg}")
     else
       if location.errors[:map_name]
         redirect to('/error?msg=map_name_in_use')
@@ -55,7 +68,7 @@ class App < Sinatra::Base
   end
 
   post '/show' do
-    location = Location.find_by_map_name(params[:location][:map_name])
+    location = Location.find_by(map_name: normalize_map_name(params[:location][:map_name]))
     if location
       redirect to("/#{location.map_name}")
     else
@@ -63,28 +76,22 @@ class App < Sinatra::Base
     end
   end
 
-  post '/:map_name/send_link' do
-    addresses = params[:addresses].split("\r\n")
-    map_name = params[:map_name]
-    message_notice = send_messages(addresses, map_name)
-    if message_notice.include?("error")
-      redirect to("/#{map_name}?message_error=#{message_notice}")
-    else
-      redirect to("/#{map_name}?message_notice=#{message_notice}")
-    end
-  end
 
   private
 
     def location_params(location)
       whitelisted = {}
       # Protect against HTML injection by encoding map_name
-      whitelisted[:map_name] = URI.encode(normalize_name(location[:map_name]))
+      whitelisted[:map_name] = URI.encode(normalize_map_name(location[:map_name]))
       # to_f would reject any HTML in the string already, so this is enough
       whitelisted[:latitude] = location[:latitude].to_f
       whitelisted[:longitude] = location[:longitude].to_f
 
       whitelisted
+    end
+
+    def normalize_map_name(map_name)
+      map_name.gsub(/\s+/, "-")
     end
 
     def error_msg(msg)
@@ -93,23 +100,25 @@ class App < Sinatra::Base
           "Could not find map with that name."
         when "map_name_in_use"
           "There is already a map with that name.  Please choose another name."
+        when "twilio_error"
+          "Twilio Error.  Please verify the phone numbers are correct."
         else
           "There was an error with your request."
       end
     end
 
-    def message_notice(msg)
+    def success_msg(msg)
       case msg
-        when "twilio_error"
-          "Twilio Error.  Please verify the phone numbers are correct."
-        when "message_success"
-          "Message(s) sent successfully."
+        when "map_saved"
+          "Map saved successfully."
+        when "map_saved_messages_sent"
+          "Map saved and message(s) sent successfully."
       end
     end
 
     def send_messages(addresses, map_name)
       notice = "message_success"
-      addresses.each do |address|
+      addresses.split("\r\n").each do |address|
         status = send_message(address, map_name)
         if status.include?("Error")
           notice = "twilio_error"
@@ -154,11 +163,5 @@ class App < Sinatra::Base
         :to => "#{address}",
         :from => "9735102922"
       )
-      puts message.to
     end
-
-    def normalize_name(name)
-      name.gsub(" ", "-")
-    end
-
 end
