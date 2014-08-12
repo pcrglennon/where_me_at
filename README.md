@@ -1,6 +1,9 @@
 Where Me At
 ============
 
+[Build Status]: https://travis-ci.org/pcrglennon/wheremeat
+[Coverage Status]: https://coveralls.io/r/pcrglennon/wheremeat
+
 <strong>The Problem</strong><br>
 If you have ever wanted to meet your friend, but you couldn't describe where you are, this app is perfect for you!<br>
 With this app, you can send your location to your friend, and we will generate directions from his current location to you.
