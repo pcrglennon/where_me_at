@@ -5,9 +5,9 @@ require 'uri'
 class App < Sinatra::Base
 
   configure do
-    if ENV['RACK_ENV'] == "production"
+    if ENV['google_maps_api_key'] # In Production and Travis
       google_maps_api_key = ENV['google_maps_api_key']
-    else
+    else # Test or Development
       require 'yaml'
       google_maps_api_key = YAML.load_file("config/config.yml")[settings.environment.to_s]["google_maps_api_key"]
     end

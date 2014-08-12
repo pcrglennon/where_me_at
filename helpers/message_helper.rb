@@ -4,7 +4,7 @@ class MessageHelper
 
   CONFIG = {}
 
-  if ENV['RACK_ENV'] == "production"
+  if ENV['mailgun_api_key'] # In Production and Travis
     CONFIG[:mailgun_api_key] = ENV['mailgun_api_key']
     CONFIG[:mailgun_domain] = ENV['mailgun_domain']
     CONFIG[:twilio_account_sid] = ENV['twilio_account_sid']
