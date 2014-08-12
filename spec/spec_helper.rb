@@ -1,5 +1,7 @@
 require 'simplecov'
+require 'coveralls'
 SimpleCov.start
+Coveralls.wear!
 
 ENV['RACK_ENV'] = "test"
 
