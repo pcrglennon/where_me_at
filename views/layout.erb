@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Where Me At</title>
+    <title>Where Me At?</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <meta name="author" content="Peter Glennon, Justin Kim">
@@ -24,6 +24,12 @@
   </head>
 
   <body>
+    <%= erb :_header, layout: false %>
+
     <%= yield %>
+
+    <%= erb :_about, layout: false %>
+
+    <%= erb :_what_is_this_modal, layout: false %>
   </body>
 </html>
