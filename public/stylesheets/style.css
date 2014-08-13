@@ -11,6 +11,7 @@ body {
 }
 
 .navbar {
+  margin-bottom: 5px;
   background-color: transparent;
   border-width: 0px;
   -webkit-box-shadow: 0px 0px;
@@ -28,15 +29,10 @@ body {
 }
 
 #title {
+  margin-bottom: 25px;
   text-align: center;
   font-size: 3.5em;
   color: inherit;
-}
-
-#map-title {
-  margin: 0 auto;
-  width: 20%;
-  font-size: 5em;
 }
 
 #success h3 {
