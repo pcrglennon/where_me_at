@@ -2,6 +2,7 @@ ENV['RACK_ENV'] ||= "development"
 
 require 'bundler'
 Bundler.require(:default, ENV['RACK_ENV'])
+require 'yaml'
 
 configure :development, :production do
   db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/wheremeat_development')

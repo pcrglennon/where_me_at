@@ -17,6 +17,20 @@ class MessageHelper
     notice
   end
 
+  def self.setupConfig
+    if File.exist?("./config/config.yml")
+      require 'yaml'
+      yaml = YAML.load_file("./config/config.yml")[ENV['RACK_ENV']]["message_helper"]
+      yaml.each_pair do |key, value|
+        ENV[key] = value
+      end
+    end
+    CONFIG[:mailgun_api_key] = ENV['mailgun_api_key']
+    CONFIG[:mailgun_domain] = ENV['mailgun_domain']
+    CONFIG[:twilio_account_sid] = ENV['twilio_account_sid']
+    CONFIG[:twilio_auth_token] = ENV['twilio_auth_token']
+  end
+
   private
 
     def self.send_message(address, map_name)
@@ -55,18 +69,6 @@ class MessageHelper
       )
     end
 
-    def self.setupConfig
-      if ENV['RACK_ENV'] == "test" || ENV['RACK_ENV'] == "development"
-        require 'yaml'
-        yaml = YAML.load_file("./config/config.yml")[ENV['RACK_ENV']]["message_helper"]
-        yaml.each_pair do |key, value|
-          ENV[key] = value
-        end
-      end
-      CONFIG[:mailgun_api_key] = ENV['mailgun_api_key']
-      CONFIG[:mailgun_domain] = ENV['mailgun_domain']
-      CONFIG[:twilio_account_sid] = ENV['twilio_account_sid']
-      CONFIG[:twilio_auth_token] = ENV['twilio_auth_token']
-    end
+
 
 end

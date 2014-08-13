@@ -6,8 +6,7 @@ class App < Sinatra::Base
 
   def self.setupApiKeys
     configure do
-      if ENV['RACK_ENV'] == "test" || ENV['RACK_ENV'] == "development"
-        require 'yaml'
+      if File.exist?("./config/config.yml")
         ENV['google_maps_api_key'] = YAML.load_file("config/config.yml")[settings.environment.to_s]["google_maps_api_key"]
       end
 
