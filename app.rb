@@ -4,16 +4,19 @@ require 'uri'
 
 class App < Sinatra::Base
 
-  configure do
-    if ENV['google_maps_api_key'] # In Production and Travis
-      google_maps_api_key = ENV['google_maps_api_key']
-    else # Test or Development
-      require 'yaml'
-      google_maps_api_key = YAML.load_file("config/config.yml")[settings.environment.to_s]["google_maps_api_key"]
-    end
+  def self.setupApiKeys
+    configure do
+      if ENV['RACK_ENV'] == "test" || ENV['RACK_ENV'] == "development"
+        require 'yaml'
+        ENV['google_maps_api_key'] = YAML.load_file("config/config.yml")[settings.environment.to_s]["google_maps_api_key"]
+      end
 
-    set :google_maps_api_key, google_maps_api_key
+      set :google_maps_api_key, ENV['google_maps_api_key']
+      MessageHelper.setupConfig
+    end
   end
+
+  setupApiKeys
 
   get '/' do
     erb :'index'
@@ -75,7 +78,7 @@ class App < Sinatra::Base
     end
 
     def normalize_map_name(map_name)
-      map_name.gsub(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/, "").gsub(/\s+/, "-")
+      map_name.gsub(/[.,\/#!$%\^&*;:{}=`~()]/, "").gsub(/\s+/, "-")
     end
 
     def error_msg(msg)

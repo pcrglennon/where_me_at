@@ -4,19 +4,6 @@ class MessageHelper
 
   CONFIG = {}
 
-  if ENV['mailgun_api_key'] # In Production and Travis
-    CONFIG[:mailgun_api_key] = ENV['mailgun_api_key']
-    CONFIG[:mailgun_domain] = ENV['mailgun_domain']
-    CONFIG[:twilio_account_sid] = ENV['twilio_account_sid']
-    CONFIG[:twilio_auth_token] = ENV['twilio_auth_token']
-  else # Test or development
-    require 'yaml'
-    yaml = YAML.load_file("./config/config.yml")[ENV['RACK_ENV']]["message_helper"]
-    yaml.each_pair do |key, value|
-      CONFIG[key.to_sym] = value
-    end
-  end
-
   def self.send_messages(addresses, map_name)
     notice = "message_success"
     addresses.split("\r\n").each do |address|
@@ -66,6 +53,20 @@ class MessageHelper
         :to => "#{address}",
         :from => "9735102922"
       )
+    end
+
+    def self.setupConfig
+      if ENV['RACK_ENV'] == "test" || ENV['RACK_ENV'] == "development"
+        require 'yaml'
+        yaml = YAML.load_file("./config/config.yml")[ENV['RACK_ENV']]["message_helper"]
+        yaml.each_pair do |key, value|
+          ENV[key] = value
+        end
+      end
+      CONFIG[:mailgun_api_key] = ENV['mailgun_api_key']
+      CONFIG[:mailgun_domain] = ENV['mailgun_domain']
+      CONFIG[:twilio_account_sid] = ENV['twilio_account_sid']
+      CONFIG[:twilio_auth_token] = ENV['twilio_auth_token']
     end
 
 end
