@@ -19,7 +19,6 @@ class MessageHelper
 
   def self.setupConfig
     if File.exist?("./config/config.yml")
-      require 'yaml'
       yaml = YAML.load_file("./config/config.yml")[ENV['RACK_ENV']]["message_helper"]
       yaml.each_pair do |key, value|
         ENV[key] = value
