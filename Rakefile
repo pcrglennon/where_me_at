@@ -16,3 +16,7 @@ namespace :db do
     end
   end
 end
+
+# For Travis, which runs 'bundle exec rake'
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new

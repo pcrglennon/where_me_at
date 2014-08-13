@@ -10,3 +10,7 @@ env:
     - secure: "JIjo9LnG8eamZ0qLNRmVoyjwA2r1NN74oFGxPiITkcp5otd96Pr7wjNTpc05br9wEQwc7MOot6cBO1I+Sp5A4yl3Btg72NfWebz0/8XQXgFfRMH5yI6miKVreHt2o1j+71jHkDntWg1JFn9PWmsWo7ZT562ISOkYdtMANH5/HhI="
     - secure: "lQZz8BKOlDEtgkG8X/UaTfIA2FLziG1cJcPR0/vm5Bm7djjCLgsX+H6RIJ4DYlV8x962fEKYw6TDOqtdKUhluQRr4lQn5tVwzYUjJKzcOU01pvGHebJIG6EWckLxWzIPfbZ/gb7fIblKXOfj7dYfJ9lSBRkRK7QvZdFSl/K5kjQ="
     - secure: "sxR5IIiD1Vnb9pG9BypKF91MwQAp9JuFJ/3x7vLxXHMB/IquoANSfIkEMB/qSWlBHkbQjDgbZpILnH/3EUfZLORdeNjV1OMjdX5ItLJrEF3cvo/V6hl6+t13plu+IJK5dfJ/75vfx65AT90Fyph0gC7Z79X1HIJqwSG9vfQglDI="
+
+script:
+  - bundle exec rake db:migrate RACK_ENV=test
+  - bundle exec rake spec
