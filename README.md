@@ -1,8 +1,8 @@
 Where Me At
 ============
 
-[Build Status]: https://travis-ci.org/pcrglennon/wheremeat
-[Coverage Status]: https://coveralls.io/r/pcrglennon/wheremeat
+[![Build Status](https://travis-ci.org/pcrglennon/wheremeat.svg?branch=master)](https://travis-ci.org/pcrglennon/wheremeat)
+[![Coverage Status](https://coveralls.io/repos/pcrglennon/wheremeat/badge.png?branch=master)](https://coveralls.io/r/pcrglennon/wheremeat?branch=master)
 
 <strong>The Problem</strong><br>
 If you have ever wanted to meet your friend, but you couldn't describe where you are, this app is perfect for you!<br>
