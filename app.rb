@@ -75,7 +75,7 @@ class App < Sinatra::Base
     end
 
     def normalize_map_name(map_name)
-      map_name.gsub(/\s+/, "-")
+      map_name.gsub(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/, "").gsub(/\s+/, "-")
     end
 
     def error_msg(msg)
