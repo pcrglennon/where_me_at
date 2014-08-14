@@ -53,8 +53,8 @@ class MessageHelper
       message_params = {
                         :from => "test@#{CONFIG[:mailgun_domain]}",
                         :to => address,
-                        :subject => "WhereMeAt???  HereMeAt!!!",
-                        :text => "CHECK IT > wheremeat.com/#{map_name}"
+                        :subject => "WhereMeAt?",
+                        :text => "You got a map from WhereMeAt!  Check it out: wheremeat.com/#{map_name}"
                        }
       mailgun.send_message(CONFIG[:mailgun_domain], message_params)
     end
@@ -62,12 +62,10 @@ class MessageHelper
     def self.send_text(address, map_name)
       @client = Twilio::REST::Client.new(CONFIG[:twilio_account_sid], CONFIG[:twilio_auth_token])
       message = @client.account.messages.create(
-        :body => "WhereMeAt???  HereMeAt!!! CHECK IT > wheremeat.com/#{map_name}",
+        :body => "WhereMeAt? Check it out: wheremeat.com/#{map_name}",
         :to => "#{address}",
         :from => "9735102922"
       )
     end
-
-
 
 end
