@@ -28,11 +28,11 @@ var map;
         });
 
         map.setCenter(pos);
-        addToForm(pos.k, pos.A);
+        addToForm(pos.lat(), pos.lng());
 
         google.maps.event.addListener(marker, "dragend", function(event) {
-          var lat = event.latLng.k;
-          var lng = event.latLng.A;
+          var lat = event.latLng.lat();
+          var lng = event.latLng.lng();
           updateMap(lat, lng);
         });
 
